@@ -1,0 +1,1526 @@
+<!DOCTYPE html>
+<html lang="ckb" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>تەندروستی کوردستان</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Kufi+Arabic:wght@300;400;500;600;700;900&display=swap" rel="stylesheet">
+<style>
+/* ===== ڕیسێت و گشتی ===== */
+*, *::before, *::after { margin:0; 
+padding:0; box-sizing:border-box; }
+
+:root {
+  --green:        #1a7a4a;
+  --green-light:  #2da063;
+  --green-pale:   #e8f5ee;
+  --green-dark:   #0f4f30;
+  --accent:       #e8a020;
+  --red:          #c0392b;
+  --red-pale:     #fff0f0;
+  --blue:         #1a5fa0;
+  --blue-pale:    #f0f4ff;
+  --yellow-pale:  #fffbf0;
+  --text:         #1a2a1f;
+  --text-muted:   #5a7a65;
+  --border:       #c8dfd0;
+  --bg:           #f5fbf7;
+  --white:        #ffffff;
+  --shadow-sm:    0 2px 8px  rgba(26,122,74,0.08);
+  --shadow-md:    0 4px 24px rgba(26,122,74,0.12);
+  --shadow-lg:    0 8px 40px rgba(26,122,74,0.16);
+  --radius-sm:    8px;
+  --radius-md:    12px;
+  --radius-lg:    18px;
+  --radius-xl:    24px;
+}
+
+body {
+  font-family: 'Noto Kufi Arabic', sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  direction: rtl;
+  min-height: 100vh;
+  line-height: 1.6;
+}
+
+a { text-decoration: none; color: inherit; }
+button { font-family: inherit; cursor: pointer; }
+select, input { font-family: inherit; }
+ul { list-style: none; }
+
+/* ===== HEADER ===== */
+header {
+  background: var(--white);
+  border-bottom: 2px solid var(--green-pale);
+  padding: 0 40px;
+  position: sticky;
+  top: 0;
+  z-index: 200;
+  box-shadow: var(--shadow-sm);
+}
+.header-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 76px;
+  max-width: 1200px;
+  margin: 0 auto;
+  gap: 20px;
+}
+
+/* لۆگۆ */
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-shrink: 0;
+}
+.logo-icon {
+  width: 48px; height: 48px;
+  background: linear-gradient(135deg, var(--green-dark), var(--green));
+  border-radius: var(--radius-md);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 24px;
+  box-shadow: 0 4px 12px rgba(26,122,74,0.3);
+}
+.logo-text  { font-size: 20px; font-weight: 900; color: var(--green-dark); }
+.logo-sub   { font-size: 11px; color: var(--text-muted); margin-top: 1px; }
+
+/* مێنیو */
+nav { display: flex; gap: 4px; }
+nav a {
+  padding: 8px 14px;
+  border-radius: var(--radius-sm);
+  font-size: 13px; font-weight: 500;
+  color: var(--text-muted);
+  transition: all .2s;
+}
+nav a:hover { background: var(--green-pale); color: var(--green); }
+nav a.active { background: var(--green-pale); color: var(--green); font-weight: 700; }
+
+/* دووگمەی ئەمەرجەنسی */
+.btn-emergency {
+  background: var(--red); color: #fff;
+  padding: 10px 20px; border-radius: var(--radius-md);
+  font-size: 13px; font-weight: 700; border: none;
+  display: flex; align-items: center; gap: 6px;
+  transition: all .2s; flex-shrink: 0;
+  box-shadow: 0 4px 12px rgba(192,57,43,0.3);
+}
+.btn-emergency:hover { background: #a93226; transform: translateY(-1px); }
+
+/* دووگمەی تۆمارکردن */
+.btn-login {
+  background: transparent; color: var(--green);
+  border: 2px solid var(--green); border-radius: var(--radius-md);
+  padding: 8px 18px; font-size: 13px; font-weight: 700;
+  transition: all .2s; flex-shrink: 0;
+}
+.btn-login:hover { background: var(--green); color: #fff; }
+
+/* ===== HERO ===== */
+.hero {
+  background: linear-gradient(135deg, var(--green-dark) 0%, var(--green) 55%, #3db87a 100%);
+  padding: 70px 40px 90px;
+  position: relative; overflow: hidden;
+}
+.hero::before {
+  content: '';
+  position: absolute; inset: 0;
+  background: url("data:image/svg+xml,%3Csvg width='80' height='80' viewBox='0 0 80 80' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23ffffff' fill-opacity='0.03'%3E%3Cpath d='M0 0h40v40H0zm40 40h40v40H40z'/%3E%3C/g%3E%3C/svg%3E");
+}
+.hero::after {
+  content: '';
+  position: absolute;
+  bottom: -40px; left: -20px; right: -20px;
+  height: 80px;
+  background: var(--bg);
+  border-radius: 50% 50% 0 0 / 60px 60px 0 0;
+}
+.hero-inner {
+  max-width: 1200px; margin: 0 auto;
+  position: relative; z-index: 1;
+  display: flex; align-items: center; gap: 60px;
+}
+.hero-text { flex: 1; }
+.hero-badge {
+  display: inline-flex; align-items: center; gap: 6px;
+  background: rgba(255,255,255,0.15);
+  border: 1px solid rgba(255,255,255,0.3);
+  color: #fff; font-size: 12px; font-weight: 600;
+  padding: 6px 14px; border-radius: 30px; margin-bottom: 20px;
+}
+.hero h1 {
+  font-size: 44px; font-weight: 900; color: #fff;
+  line-height: 1.2; margin-bottom: 16px;
+}
+.hero h1 span { color: var(--accent); }
+.hero p {
+  font-size: 16px; color: rgba(255,255,255,0.85);
+  margin-bottom: 36px; max-width: 480px; line-height: 1.7;
+}
+.hero-stats {
+  display: flex; gap: 28px; flex-wrap: wrap;
+}
+.hero-stat { color: rgba(255,255,255,0.9); }
+.hero-stat-num { font-size: 24px; font-weight: 900; }
+.hero-stat-lbl { font-size: 11px; opacity: 0.75; margin-top: 2px; }
+
+/* سەرچاوەی گەڕان */
+.search-box {
+  background: var(--white);
+  border-radius: var(--radius-xl);
+  padding: 10px;
+  max-width: 700px;
+  box-shadow: var(--shadow-lg);
+  display: flex; align-items: center; gap: 8px;
+  margin-bottom: 32px;
+}
+.search-box-icon {
+  width: 44px; height: 44px;
+  background: var(--green-pale);
+  border-radius: var(--radius-md);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 20px; flex-shrink: 0;
+}
+.search-box input {
+  flex: 1; border: none; outline: none;
+  font-size: 15px; color: var(--text); background: transparent;
+  padding: 4px 0;
+}
+.search-box input::placeholder { color: #b0c8ba; }
+.search-divider { width: 1px; height: 32px; background: var(--border); flex-shrink: 0; }
+.search-box select {
+  border: none; outline: none; background: transparent;
+  font-size: 13px; color: var(--text-muted);
+  padding: 4px 8px; cursor: pointer;
+}
+.btn-search {
+  background: var(--green); color: #fff;
+  border: none; border-radius: var(--radius-md);
+  padding: 12px 26px; font-size: 14px; font-weight: 700;
+  transition: all .2s; white-space: nowrap;
+  box-shadow: 0 4px 12px rgba(26,122,74,0.3);
+}
+.btn-search:hover { background: var(--green-dark); transform: translateY(-1px); }
+
+/* فلتەرە خێراکان */
+.quick-filters {
+  display: flex; gap: 8px; flex-wrap: wrap;
+}
+.filter-chip {
+  background: rgba(255,255,255,0.15);
+  border: 1px solid rgba(255,255,255,0.25);
+  color: rgba(255,255,255,0.9);
+  padding: 6px 14px; border-radius: 30px;
+  font-size: 12px; font-weight: 500; cursor: pointer;
+  transition: all .2s;
+}
+.filter-chip:hover { background: rgba(255,255,255,0.25); }
+
+/* ===== STATS STRIP ===== */
+.stats-strip {
+  background: var(--white);
+  border-bottom: 1px solid var(--border);
+  padding: 24px 40px;
+  margin-top: 40px;
+}
+.stats-inner {
+  max-width: 1200px; margin: 0 auto;
+  display: flex; gap: 0; justify-content: space-around;
+}
+.stat-item { text-align: center; padding: 0 20px; }
+.stat-item + .stat-item { border-right: 1px solid var(--border); }
+.stat-num { font-size: 28px; font-weight: 900; color: var(--green); }
+.stat-lbl { font-size: 12px; color: var(--text-muted); margin-top: 4px; }
+
+/* ===== MAIN LAYOUT ===== */
+.main {
+  max-width: 1200px; margin: 0 auto;
+  padding: 48px 40px;
+}
+
+/* عنوانی بەشەکان */
+.section-header {
+  display: flex; align-items: center; justify-content: space-between;
+  margin-bottom: 24px;
+}
+.section-title {
+  font-size: 22px; font-weight: 800; color: var(--green-dark);
+  display: flex; align-items: center; gap: 10px;
+}
+.section-title::before {
+  content: '';
+  width: 5px; height: 24px;
+  background: var(--green);
+  border-radius: 3px;
+  display: inline-block;
+}
+.see-all {
+  font-size: 13px; font-weight: 600; color: var(--green);
+  display: flex; align-items: center; gap: 4px;
+  transition: gap .2s;
+}
+.see-all:hover { gap: 8px; }
+
+/* ===== دەستگەیشتنی خێرا ===== */
+.quick-access { margin-bottom: 52px; }
+.quick-grid {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: 14px;
+}
+.quick-card {
+  background: var(--white);
+  border-radius: var(--radius-lg);
+  padding: 24px 16px;
+  text-align: center;
+  border: 1.5px solid var(--border);
+  cursor: pointer;
+  transition: all .25s;
+  position: relative; overflow: hidden;
+}
+.quick-card::after {
+  content: '';
+  position: absolute; bottom: 0; left: 0; right: 0;
+  height: 3px; background: var(--green);
+  transform: scaleX(0); transition: transform .25s;
+}
+.quick-card:hover {
+  border-color: var(--green);
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-md);
+}
+.quick-card:hover::after { transform: scaleX(1); }
+.quick-icon { font-size: 32px; margin-bottom: 12px; }
+.quick-label { font-size: 13px; font-weight: 700; color: var(--text); margin-bottom: 4px; }
+.quick-sub { font-size: 11px; color: var(--text-muted); }
+.quick-badge {
+  position: absolute; top: 10px; left: 10px;
+  background: var(--red); color: #fff;
+  font-size: 9px; font-weight: 700;
+  padding: 2px 6px; border-radius: 20px;
+}
+
+/* ===== کارتی دکتۆر ===== */
+.doctors-section { margin-bottom: 52px; }
+.doctors-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 18px;
+}
+.doctor-card {
+  background: var(--white);
+  border-radius: var(--radius-lg);
+  border: 1.5px solid var(--border);
+  overflow: hidden;
+  transition: all .25s;
+  cursor: pointer;
+}
+.doctor-card:hover {
+  border-color: var(--green);
+  box-shadow: var(--shadow-md);
+  transform: translateY(-3px);
+}
+.doctor-header { padding: 20px; display: flex; gap: 16px; }
+.doctor-avatar {
+  width: 68px; height: 68px;
+  border-radius: var(--radius-md);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 30px; flex-shrink: 0;
+  border: 2px solid var(--border);
+}
+.doctor-meta { flex: 1; min-width: 0; }
+.doctor-name { font-size: 16px; font-weight: 800; color: var(--text); margin-bottom: 4px; }
+.doctor-spec {
+  font-size: 12px; font-weight: 700; color: var(--green);
+  margin-bottom: 6px;
+  display: flex; align-items: center; gap: 4px;
+}
+.doctor-loc { font-size: 11px; color: var(--text-muted); margin-bottom: 8px; }
+.verified-badge {
+  display: inline-flex; align-items: center; gap: 4px;
+  background: var(--green-pale); color: var(--green);
+  font-size: 10px; font-weight: 700;
+  padding: 3px 8px; border-radius: 20px;
+}
+.doctor-tags { padding: 0 20px 12px; display: flex; gap: 6px; flex-wrap: wrap; }
+.doctor-tag {
+  background: #f0f8f4; color: var(--text-muted);
+  font-size: 10px; padding: 3px 8px; border-radius: 20px;
+}
+.doctor-footer {
+  padding: 14px 20px;
+  border-top: 1px solid var(--green-pale);
+  background: #fafffe;
+  display: flex; align-items: center; justify-content: space-between; gap: 10px;
+}
+.stars { color: var(--accent); font-size: 13px; letter-spacing: -1px; }
+.rating-count { font-size: 10px; color: var(--text-muted); margin-top: 2px; }
+.price-info { text-align: center; }
+.price { font-size: 14px; font-weight: 800; color: var(--text); }
+.price-unit { font-size: 10px; color: var(--text-muted); }
+.btn-appt {
+  background: var(--green); color: #fff;
+  border: none; border-radius: var(--radius-sm);
+  padding: 10px 18px; font-size: 12px; font-weight: 700;
+  transition: all .2s;
+}
+.btn-appt:hover { background: var(--green-dark); transform: translateY(-1px); }
+
+/* ===== سەیدەلیە و تاقیگە ===== */
+.pharmacy-lab { margin-bottom: 52px; }
+.two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+.list-card {
+  background: var(--white);
+  border-radius: var(--radius-lg);
+  border: 1.5px solid var(--border);
+  overflow: hidden;
+}
+.list-card-header {
+  padding: 18px 20px;
+  border-bottom: 1px solid var(--green-pale);
+  display: flex; align-items: center; justify-content: space-between;
+}
+.list-card-title { font-size: 16px; font-weight: 800; color: var(--text); }
+.list-items { padding: 8px 0; }
+.list-item {
+  display: flex; align-items: center; gap: 14px;
+  padding: 14px 20px;
+  border-bottom: 1px solid #f0f7f3;
+  cursor: pointer; transition: all .2s;
+}
+.list-item:last-child { border-bottom: none; }
+.list-item:hover { background: #f8fdf9; padding-right: 26px; }
+.list-icon {
+  width: 44px; height: 44px;
+  border-radius: var(--radius-sm);
+  background: var(--green-pale);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 20px; flex-shrink: 0;
+}
+.list-info { flex: 1; min-width: 0; }
+.list-name { font-size: 13px; font-weight: 700; color: var(--text); margin-bottom: 2px; }
+.list-detail { font-size: 11px; color: var(--text-muted); }
+.badge {
+  font-size: 10px; font-weight: 700;
+  padding: 4px 10px; border-radius: 20px;
+  white-space: nowrap; flex-shrink: 0;
+}
+.badge-open   { background: var(--green-pale); color: var(--green); }
+.badge-closed { background: #f5f5f5; color: #999; }
+.badge-h24    { background: #fff3e0; color: #e67e00; }
+.badge-urgent { background: #fff0f0; color: var(--red); }
+
+/* ===== بانکی خوێن ===== */
+.blood-section { margin-bottom: 52px; }
+.blood-card {
+  background: linear-gradient(135deg, #fff5f5, #ffe8e8);
+  border-radius: var(--radius-lg);
+  border: 1.5px solid #f5c6c6;
+  padding: 32px;
+  display: flex; align-items: center; gap: 32px;
+}
+.blood-left { flex: 1; }
+.blood-left h3 { font-size: 22px; font-weight: 900; color: var(--red); margin-bottom: 8px; }
+.blood-left p { font-size: 14px; color: var(--text-muted); line-height: 1.7; margin-bottom: 20px; }
+.blood-btns { display: flex; gap: 12px; }
+.btn-blood-donate {
+  background: var(--red); color: #fff;
+  border: none; border-radius: var(--radius-md);
+  padding: 12px 24px; font-size: 13px; font-weight: 700;
+  transition: all .2s;
+}
+.btn-blood-donate:hover { background: #a93226; }
+.btn-blood-request {
+  background: var(--white); color: var(--red);
+  border: 2px solid var(--red); border-radius: var(--radius-md);
+  padding: 12px 24px; font-size: 13px; font-weight: 700;
+  transition: all .2s;
+}
+.btn-blood-request:hover { background: var(--red); color: #fff; }
+.blood-groups {
+  display: grid; grid-template-columns: repeat(4, 1fr);
+  gap: 10px;
+}
+.blood-chip {
+  width: 70px; height: 70px;
+  border-radius: var(--radius-md);
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+  font-weight: 900; font-size: 18px;
+  cursor: pointer; transition: all .2s;
+  border: 2px solid transparent;
+}
+.blood-chip:hover { transform: scale(1.08); border-color: rgba(0,0,0,0.1); }
+.blood-chip-label { font-size: 9px; font-weight: 600; margin-top: 2px; }
+.blood-need { background: var(--red); color: #fff; }
+.blood-ok   { background: var(--green-pale); color: var(--green); }
+.blood-low  { background: #fff3e0; color: #e67e00; }
+
+/* ===== تاقیگەی فەحسەکان ===== */
+.lab-tests { margin-bottom: 52px; }
+.test-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; }
+.test-card {
+  background: var(--white);
+  border-radius: var(--radius-md);
+  border: 1.5px solid var(--border);
+  padding: 18px;
+  cursor: pointer; transition: all .25s;
+}
+.test-card:hover {
+  border-color: var(--green);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-sm);
+}
+.test-icon { font-size: 26px; margin-bottom: 10px; }
+.test-name { font-size: 13px; font-weight: 700; color: var(--text); margin-bottom: 4px; }
+.test-price { font-size: 12px; color: var(--green); font-weight: 700; }
+.test-time  { font-size: 10px; color: var(--text-muted); margin-top: 4px; }
+
+/* ===== ڕێنمای تەندرووستی ===== */
+.health-guide { margin-bottom: 52px; }
+.guide-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+.guide-card {
+  border-radius: var(--radius-lg);
+  padding: 28px;
+  cursor: pointer; transition: all .25s;
+  border: 1.5px solid transparent;
+  position: relative; overflow: hidden;
+}
+.guide-card:hover { transform: translateY(-3px); box-shadow: var(--shadow-md); }
+.guide-card.virus   { background: linear-gradient(135deg,#fff0f0,#ffe4e4); border-color: #f5c6c6; }
+.guide-card.mental  { background: linear-gradient(135deg,#f0f4ff,#e4eaff); border-color: #c6d0f5; }
+.guide-card.child   { background: linear-gradient(135deg,#fffbf0,#fff4d4); border-color: #f5e4a0; }
+.guide-card.heart   { background: linear-gradient(135deg,#ffeef0,#ffd8dc); border-color: #f5b8c0; }
+.guide-card.diet    { background: linear-gradient(135deg,#f0fff4,#d4f5e4); border-color: #a0ddb8; }
+.guide-card.vaccine { background: linear-gradient(135deg,#f0f8ff,#d4e8ff); border-color: #a0c8f5; }
+.guide-emoji { font-size: 36px; margin-bottom: 14px; }
+.guide-title { font-size: 15px; font-weight: 800; color: var(--text); margin-bottom: 8px; }
+.guide-desc  { font-size: 12px; color: var(--text-muted); line-height: 1.7; margin-bottom: 14px; }
+.guide-link  { font-size: 12px; font-weight: 700; color: var(--green); }
+
+/* ===== نەخۆشخانەکان ===== */
+.hospitals-section { margin-bottom: 52px; }
+.hospital-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; }
+.hospital-card {
+  background: var(--white);
+  border-radius: var(--radius-lg);
+  border: 1.5px solid var(--border);
+  padding: 20px;
+  display: flex; gap: 16px;
+  cursor: pointer; transition: all .25s;
+}
+.hospital-card:hover { border-color: var(--green); box-shadow: var(--shadow-sm); }
+.hospital-icon {
+  width: 56px; height: 56px;
+  border-radius: var(--radius-md);
+  background: var(--green-pale);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 26px; flex-shrink: 0;
+}
+.hospital-info { flex: 1; }
+.hospital-name   { font-size: 15px; font-weight: 800; color: var(--text); margin-bottom: 4px; }
+.hospital-type   { font-size: 11px; color: var(--green); font-weight: 700; margin-bottom: 4px; }
+.hospital-loc    { font-size: 11px; color: var(--text-muted); margin-bottom: 8px; }
+.hospital-footer { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
+
+/* ===== ئەمەرجەنسی ===== */
+.emergency-section { margin-bottom: 52px; }
+.emergency-card {
+  background: linear-gradient(135deg, #c0392b, #922b21);
+  border-radius: var(--radius-lg);
+  padding: 32px 40px;
+  display: flex; align-items: center; justify-content: space-between; gap: 32px;
+}
+.emergency-left h3  { font-size: 24px; font-weight: 900; color: #fff; margin-bottom: 6px; }
+.emergency-left p   { font-size: 14px; color: rgba(255,255,255,0.8); margin-bottom: 20px; }
+.emergency-nearest {
+  display: flex; gap: 10px; flex-wrap: wrap;
+}
+.emg-near-btn {
+  background: rgba(255,255,255,0.15);
+  border: 1px solid rgba(255,255,255,0.3);
+  color: #fff; border-radius: var(--radius-md);
+  padding: 10px 18px; font-size: 13px; font-weight: 600;
+  transition: all .2s;
+}
+.emg-near-btn:hover { background: rgba(255,255,255,0.25); }
+.emergency-nums { display: flex; gap: 16px; }
+.emg-num-card {
+  background: rgba(255,255,255,0.12);
+  border: 1px solid rgba(255,255,255,0.2);
+  border-radius: var(--radius-md);
+  padding: 20px 28px; text-align: center;
+  cursor: pointer; transition: all .2s;
+  min-width: 100px;
+}
+.emg-num-card:hover { background: rgba(255,255,255,0.22); transform: translateY(-2px); }
+.emg-num-card .number { font-size: 32px; font-weight: 900; color: #fff; }
+.emg-num-card .label  { font-size: 12px; color: rgba(255,255,255,0.75); margin-top: 4px; }
+
+/* ===== پرۆفایلی نەخۆش ===== */
+.profile-section { margin-bottom: 52px; }
+.profile-grid { display: grid; grid-template-columns: 1fr 2fr; gap: 20px; }
+.profile-card {
+  background: var(--white);
+  border-radius: var(--radius-lg);
+  border: 1.5px solid var(--border);
+  padding: 28px; text-align: center;
+}
+.profile-avatar {
+  width: 80px; height: 80px;
+  border-radius: 50%;
+  background: var(--green-pale);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 36px; margin: 0 auto 16px;
+  border: 3px solid var(--green);
+}
+.profile-name  { font-size: 18px; font-weight: 800; color: var(--text); margin-bottom: 4px; }
+.profile-id    { font-size: 12px; color: var(--text-muted); margin-bottom: 20px; }
+.profile-info  { text-align: right; }
+.profile-row   { display: flex; justify-content: space-between; padding: 10px 0; border-bottom: 1px solid var(--green-pale); }
+.profile-row:last-child { border-bottom: none; }
+.profile-key   { font-size: 12px; color: var(--text-muted); }
+.profile-val   { font-size: 12px; font-weight: 700; color: var(--text); }
+.profile-actions { margin-top: 20px; display: flex; flex-direction: column; gap: 8px; }
+.btn-profile {
+  width: 100%; padding: 10px;
+  border-radius: var(--radius-md); font-size: 12px; font-weight: 700;
+  border: none; transition: all .2s;
+}
+.btn-profile-primary { background: var(--green); color: #fff; }
+.btn-profile-primary:hover { background: var(--green-dark); }
+.btn-profile-outline { background: transparent; color: var(--green); border: 2px solid var(--green); }
+.btn-profile-outline:hover { background: var(--green); color: #fff; }
+
+.history-card {
+  background: var(--white);
+  border-radius: var(--radius-lg);
+  border: 1.5px solid var(--border);
+  overflow: hidden;
+}
+.history-header {
+  padding: 18px 24px;
+  border-bottom: 1px solid var(--green-pale);
+  font-size: 15px; font-weight: 800; color: var(--text);
+}
+.history-item {
+  display: flex; align-items: center; gap: 16px;
+  padding: 16px 24px;
+  border-bottom: 1px solid #f0f7f3;
+  cursor: pointer; transition: background .2s;
+}
+.history-item:last-child { border-bottom: none; }
+.history-item:hover { background: #f8fdf9; }
+.history-icon {
+  width: 44px; height: 44px;
+  border-radius: var(--radius-sm);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 20px; flex-shrink: 0;
+}
+.history-info { flex: 1; }
+.history-title { font-size: 13px; font-weight: 700; color: var(--text); }
+.history-sub   { font-size: 11px; color: var(--text-muted); margin-top: 2px; }
+.history-date  { font-size: 11px; color: var(--text-muted); }
+.history-status {
+  font-size: 10px; font-weight: 700;
+  padding: 3px 10px; border-radius: 20px;
+}
+
+/* ===== ئاگاداری ===== */
+.reminder-card {
+  background: linear-gradient(135deg, #fff8e1, #fff3cd);
+  border: 1.5px solid #f5e4a0;
+  border-radius: var(--radius-lg);
+  padding: 20px 24px;
+  display: flex; align-items: center; gap: 16px;
+  margin-bottom: 52px; cursor: pointer;
+}
+.reminder-icon { font-size: 28px; }
+.reminder-text h4 { font-size: 14px; font-weight: 800; color: #7d5a00; margin-bottom: 4px; }
+.reminder-text p  { font-size: 12px; color: #a07800; }
+.reminder-close   { margin-right: auto; font-size: 18px; color: #ccc; cursor: pointer; }
+
+/* ===== فووتەر ===== */
+footer { background: var(--green-dark); padding: 52px 40px 24px; margin-top: 20px; }
+.footer-inner { max-width: 1200px; margin: 0 auto; }
+.footer-top {
+  display: grid; grid-template-columns: 2fr 1fr 1fr 1fr 1fr;
+  gap: 40px; margin-bottom: 40px;
+}
+.footer-logo { display: flex; align-items: center; gap: 12px; margin-bottom: 16px; }
+.footer-logo-icon {
+  width: 44px; height: 44px;
+  background: rgba(255,255,255,0.1);
+  border-radius: var(--radius-md);
+  display: flex; align-items: center; justify-content: center; font-size: 22px;
+}
+.footer-logo-text { font-size: 18px; font-weight: 900; color: #fff; }
+.footer-desc { font-size: 13px; color: rgba(255,255,255,0.55); line-height: 1.8; margin-bottom: 20px; }
+.footer-social { display: flex; gap: 10px; }
+.social-btn {
+  width: 38px; height: 38px;
+  background: rgba(255,255,255,0.1);
+  border-radius: var(--radius-sm);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 16px; cursor: pointer; transition: all .2s;
+}
+.social-btn:hover { background: rgba(255,255,255,0.2); }
+.footer-col h4 { font-size: 14px; font-weight: 700; color: #fff; margin-bottom: 18px; }
+.footer-col ul li { margin-bottom: 10px; }
+.footer-col ul li a {
+  font-size: 13px; color: rgba(255,255,255,0.55);
+  transition: color .2s; cursor: pointer;
+}
+.footer-col ul li a:hover { color: rgba(255,255,255,0.9); }
+.footer-bottom {
+  border-top: 1px solid rgba(255,255,255,0.08);
+  padding-top: 24px;
+  display: flex; align-items: center; justify-content: space-between;
+  flex-wrap: wrap; gap: 12px;
+}
+.footer-bottom p { font-size: 12px; color: rgba(255,255,255,0.35); }
+.footer-langs { display: flex; gap: 8px; }
+.lang-btn {
+  background: rgba(255,255,255,0.08);
+  border: 1px solid rgba(255,255,255,0.15);
+  color: rgba(255,255,255,0.5); border-radius: 6px;
+  padding: 4px 10px; font-size: 11px; cursor: pointer;
+  transition: all .2s;
+}
+.lang-btn:hover, .lang-btn.active { background: rgba(255,255,255,0.15); color: #fff; }
+
+/* ===== موبایل ریسپۆنسیف ===== */
+@media (max-width: 900px) {
+  header { padding: 0 16px; }
+  nav { display: none; }
+  .hero { padding: 40px 16px 60px; }
+  .hero h1 { font-size: 28px; }
+  .hero-inner { flex-direction: column; gap: 24px; }
+  .search-box { flex-wrap: wrap; }
+  .search-selects { width: 100%; }
+  .stats-inner { flex-wrap: wrap; gap: 20px; justify-content: center; }
+  .main { padding: 24px 16px; }
+  .quick-grid { grid-template-columns: repeat(3, 1fr); }
+  .doctors-grid { grid-template-columns: 1fr; }
+  .two-col { grid-template-columns: 1fr; }
+  .blood-card { flex-direction: column; }
+  .blood-groups { grid-template-columns: repeat(4, 1fr); }
+  .test-grid { grid-template-columns: repeat(2, 1fr); }
+  .guide-grid { grid-template-columns: 1fr; }
+  .hospital-grid { grid-template-columns: 1fr; }
+  .emergency-card { flex-direction: column; }
+  .profile-grid { grid-template-columns: 1fr; }
+  .footer-top { grid-template-columns: 1fr 1fr; }
+}
+</style>
+</head>
+<body>
+
+<!-- ===== HEADER ===== -->
+<header>
+  <div class="header-inner">
+    <a class="logo" href="#">
+      <div class="logo-icon">🏥</div>
+      <div>
+        <div class="logo-text">تەندروستی کوردستان</div>
+        <div class="logo-sub">پلاتفۆرمی تەندرووستی دیجیتاڵ</div>
+      </div>
+    </a>
+
+    <nav>
+      <a href="#" class="active">سەرەکی</a>
+      <a href="#">دکتۆران</a>
+      <a href="#">نەخۆشخانەکان</a>
+      <a href="#">سەیدەلیەکان</a>
+      <a href="#">تاقیگەکان</a>
+      <a href="#">بانکی خوێن</a>
+      <a href="#">ڕێنما</a>
+    </nav>
+
+    <div style="display:flex;align-items:center;gap:10px">
+      <button class="btn-login">چوونەژوورەوە</button>
+      <button class="btn-emergency" onclick="document.getElementById('emg').scrollIntoView({behavior:'smooth'})">
+        🚨 ئەمەرجەنسی
+      </button>
+    </div>
+  </div>
+</header>
+
+<!-- ===== HERO ===== -->
+<div class="hero">
+  <div class="hero-inner">
+    <div class="hero-text">
+      <div class="hero-badge">✅ پلاتفۆرمی فەرمی تەندرووستی</div>
+      <h1>تەندروستی تۆ<br><span>بەرپرسیارێتی ماست</span></h1>
+      <p>دکتۆری گونجاو بدۆزەوە، ئەپۆینتمەنت بدە، ئەنجامی تاقیگەت ببینە، و زانیاری تەندرووستی بەدەستبهێنە — هەمووی بە کوردی و بە خێرایی</p>
+
+      <div class="search-box">
+        <div class="search-box-icon">🔍</div>
+        <input type="text" placeholder="ناوی دکتۆر، پسپۆڕی، یان نیشانەی نەخۆشی بنووسە...">
+        <div class="search-divider"></div>
+        <select>
+          <option>هەموو شارەکان</option>
+          <option>هەولێر</option>
+          <option>سلێمانی</option>
+          <option>دهۆک</option>
+          <option>کەرکووک</option>
+          <option>زاخۆ</option>
+          <option>ڕانیە</option>
+        </select>
+        <div class="search-divider"></div>
+        <select>
+          <option>هەموو پسپۆڕییەکان</option>
+          <option>دەروونپزیشک</option>
+          <option>منداڵان</option>
+          <option>دڵ و خوێن</option>
+          <option>دندانپزیشک</option>
+          <option>چاو</option>
+          <option>چەرم</option>
+          <option>زگ و دڵ</option>
+          <option>هەستیا</option>
+          <option>کەڵێنی</option>
+        </select>
+        <button class="btn-search">🔍 گەڕان</button>
+      </div>
+
+      <div class="quick-filters">
+        <div class="filter-chip">👨‍⚕️ دکتۆری ئونلاین</div>
+        <div class="filter-chip">⭐ باشترین هەڵسەنگاندن</div>
+        <div class="filter-chip">📅 ئەمڕۆ بەردەستە</div>
+        <div class="filter-chip">💰 نرخی گونجاو</div>
+        <div class="filter-chip">✅ مۆڵەتی وەزارەت</div>
+      </div>
+    </div>
+
+    <div style="display:flex;flex-direction:column;gap:16px;flex-shrink:0">
+      <div class="hero-stats">
+        <div class="hero-stat">
+          <div class="hero-stat-num">+٢٤٠٠</div>
+          <div class="hero-stat-lbl">دکتۆری تۆمارکراو</div>
+        </div>
+        <div class="hero-stat">
+          <div class="hero-stat-num">+٣٨٠</div>
+          <div class="hero-stat-lbl">کلینیک</div>
+        </div>
+        <div class="hero-stat">
+          <div class="hero-stat-num">+٤٨ک</div>
+          <div class="hero-stat-lbl">نەخۆش</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== STATS ===== -->
+<div class="stats-strip">
+  <div class="stats-inner">
+    <div class="stat-item">
+      <div class="stat-num">+٢٤٠٠</div>
+      <div class="stat-lbl">دکتۆری تۆمارکراو</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-num">+٣٨٠</div>
+      <div class="stat-lbl">کلینیک و نەخۆشخانە</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-num">+١٢٠</div>
+      <div class="stat-lbl">سەیدەلیەی تۆمارکراو</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-num">+٨٥</div>
+      <div class="stat-lbl">تاقیگەی پزیشکی</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-num">+٤٨،٠٠٠</div>
+      <div class="stat-lbl">نەخۆشی یارمەتیپێدراو</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-num">٤ شار</div>
+      <div class="stat-lbl">هەولێر، سلێمانی، دهۆک، کەرکووک</div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== MAIN ===== -->
+<div class="main">
+
+  <!-- ئاگاداری -->
+  <div class="reminder-card">
+    <div class="reminder-icon">💉</div>
+    <div class="reminder-text">
+      <h4>بیرت هەیە — کاتی واکسینی منداڵەکەتە!</h4>
+      <p>کاتژمێری واکسینی ئەمساڵی زگ و مێرووی منداڵانت نزیکە. ئەپۆینتمەنت بدە.</p>
+    </div>
+    <div class="reminder-close">✕</div>
+  </div>
+
+  <!-- دەستگەیشتنی خێرا -->
+  <div class="quick-access">
+    <div class="section-header">
+      <div class="section-title">دەستگەیشتنی خێرا</div>
+    </div>
+    <div class="quick-grid">
+      <div class="quick-card">
+        <div class="quick-icon">👨‍⚕️</div>
+        <div class="quick-label">دکتۆران</div>
+        <div class="quick-sub">ئەپۆینتمەنت ئۆنلاین</div>
+      </div>
+      <div class="quick-card">
+        <div class="quick-icon">🏥</div>
+        <div class="quick-label">نەخۆشخانەکان</div>
+        <div class="quick-sub">نزیکترین بدۆزەوە</div>
+      </div>
+      <div class="quick-card">
+        <div class="quick-icon">💊</div>
+        <div class="quick-label">سەیدەلیەکان</div>
+        <div class="quick-sub">٢٤ کاتژمێر</div>
+      </div>
+      <div class="quick-card">
+        <div class="quick-icon">🔬</div>
+        <div class="quick-label">تاقیگەکان</div>
+        <div class="quick-sub">نرخ و جۆری فەحس</div>
+      </div>
+      <div class="quick-card">
+        <span class="quick-badge">پێویست</span>
+        <div class="quick-icon">🩸</div>
+        <div class="quick-label">بانکی خوێن</div>
+        <div class="quick-sub">داواکاری و بەخشین</div>
+      </div>
+      <div class="quick-card">
+        <div class="quick-icon">📋</div>
+        <div class="quick-label">ئەنجامەکانم</div>
+        <div class="quick-sub">تاقیگە و پڕۆفایل</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- دکتۆران -->
+  <div class="doctors-section">
+    <div class="section-header">
+      <div class="section-title">دکتۆرانی پێشنیارکراو</div>
+      <a class="see-all" href="#">هەموویان ببینە →</a>
+    </div>
+    <div class="doctors-grid">
+
+      <!-- د. ئەرشەد -->
+      <div class="doctor-card">
+        <div class="doctor-header">
+          <div class="doctor-avatar" style="background:#e8f5ee">👨‍⚕️</div>
+          <div class="doctor-meta">
+            <div class="doctor-name">د. ئەرشەد محەمەد کەریم</div>
+            <div class="doctor-spec">🧠 پسپۆڕی دەروونپزیشکی</div>
+            <div class="doctor-loc">📍 هەولێر — کلینیکی ژیان</div>
+            <span class="verified-badge">✅ مۆڵەتی وەزارەت</span>
+          </div>
+        </div>
+        <div class="doctor-tags">
+          <span class="doctor-tag">ستریس</span>
+          <span class="doctor-tag">دەپرێشن</span>
+          <span class="doctor-tag">تروما</span>
+          <span class="doctor-tag">نەبووی خەو</span>
+        </div>
+        <div class="doctor-footer">
+          <div>
+            <div class="stars">★★★★★</div>
+            <div class="rating-count">٤.٩ — ٢٣٧ هەڵسەنگاندن</div>
+          </div>
+          <div class="price-info">
+            <div class="price">٢٥،٠٠٠ IQD</div>
+            <div class="price-unit">بۆ هەر وانەیەک</div>
+          </div>
+          <button class="btn-appt">📅 ئەپۆینتمەنت</button>
+        </div>
+      </div>
+
+      <!-- د. شنو -->
+      <div class="doctor-card">
+        <div class="doctor-header">
+          <div class="doctor-avatar" style="background:#f0f4ff">👩‍⚕️</div>
+          <div class="doctor-meta">
+            <div class="doctor-name">د. شنو سەلیم عەبدوڵڵا</div>
+            <div class="doctor-spec">👶 پسپۆڕی منداڵان</div>
+            <div class="doctor-loc">📍 سلێمانی — نەخۆشخانەی هیوا</div>
+            <span class="verified-badge">✅ مۆڵەتی وەزارەت</span>
+          </div>
+        </div>
+        <div class="doctor-tags">
+          <span class="doctor-tag">نەخۆشی منداڵ</span>
+          <span class="doctor-tag">واکسین</span>
+          <span class="doctor-tag">گەشەپێدان</span>
+        </div>
+        <div class="doctor-footer">
+          <div>
+            <div class="stars">★★★★★</div>
+            <div class="rating-count">٤.٨ — ١٨٤ هەڵسەنگاندن</div>
+          </div>
+          <div class="price-info">
+            <div class="price">٢٠،٠٠٠ IQD</div>
+            <div class="price-unit">بۆ هەر وانەیەک</div>
+          </div>
+          <button class="btn-appt">📅 ئەپۆینتمەنت</button>
+        </div>
+      </div>
+
+      <!-- د. کامەران -->
+      <div class="doctor-card">
+        <div class="doctor-header">
+          <div class="doctor-avatar" style="background:#fff3e0">👨‍⚕️</div>
+          <div class="doctor-meta">
+            <div class="doctor-name">د. کامەران عومەر مووسا</div>
+            <div class="doctor-spec">❤️ پسپۆڕی دڵ و خوێن</div>
+            <div class="doctor-loc">📍 دهۆک — کلینیکی هەڵتەبەر</div>
+            <span class="verified-badge">✅ مۆڵەتی وەزارەت</span>
+          </div>
+        </div>
+        <div class="doctor-tags">
+          <span class="doctor-tag">کەسی خوێن</span>
+          <span class="doctor-tag">ئەکو</span>
+          <span class="doctor-tag">تەشخیصی دڵ</span>
+        </div>
+        <div class="doctor-footer">
+          <div>
+            <div class="stars">★★★★☆</div>
+            <div class="rating-count">٤.٧ — ٣١٢ هەڵسەنگاندن</div>
+          </div>
+          <div class="price-info">
+            <div class="price">٣٠،٠٠٠ IQD</div>
+            <div class="price-unit">بۆ هەر وانەیەک</div>
+          </div>
+          <button class="btn-appt">📅 ئەپۆینتمەنت</button>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- سەیدەلیە و تاقیگە -->
+  <div class="pharmacy-lab">
+    <div class="section-header">
+      <div class="section-title">سەیدەلیە و تاقیگە</div>
+      <a class="see-all" href="#">هەموویان ببینە →</a>
+    </div>
+    <div class="two-col">
+      <div class="list-card">
+        <div class="list-card-header">
+          <div class="list-card-title">💊 سەیدەلیەی نزیک</div>
+          <span class="badge badge-open">٤ کراوەیە</span>
+        </div>
+        <div class="list-items">
+          <div class="list-item">
+            <div class="list-icon">💊</div>
+            <div class="list-info">
+              <div class="list-name">سەیدەلیەی شیفا</div>
+              <div class="list-detail">📍 شەقامی پرلەمان، هەولێر · ☎ 0750-xxx-xxxx</div>
+            </div>
+            <span class="badge badge-h24">٢٤ کاتژمێر</span>
+          </div>
+          <div class="list-item">
+            <div class="list-icon">💊</div>
+            <div class="list-info">
+              <div class="list-name">سەیدەلیەی ژیان</div>
+              <div class="list-detail">📍 شەقامی ١٠٠ مەتری، هەولێر · ☎ 0751-xxx-xxxx</div>
+            </div>
+            <span class="badge badge-open">کراوەیە</span>
+          </div>
+          <div class="list-item">
+            <div class="list-icon">💊</div>
+            <div class="list-info">
+              <div class="list-name">سەیدەلیەی گەشە</div>
+              <div class="list-detail">📍 ئازادی، سلێمانی · ☎ 0770-xxx-xxxx</div>
+            </div>
+            <span class="badge badge-h24">٢٤ کاتژمێر</span>
+          </div>
+          <div class="list-item">
+            <div class="list-icon">💊</div>
+            <div class="list-info">
+              <div class="list-name">سەیدەلیەی رووناک</div>
+              <div class="list-detail">📍 ناوەندی شار، دهۆک · ☎ 0780-xxx-xxxx</div>
+            </div>
+            <span class="badge badge-closed">داخراوە</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="list-card">
+        <div class="list-card-header">
+          <div class="list-card-title">🔬 تاقیگەکان</div>
+          <a class="see-all" href="#" style="font-size:12px">هەموویان →</a>
+        </div>
+        <div class="list-items">
+          <div class="list-item">
+            <div class="list-icon">🔬</div>
+            <div class="list-info">
+              <div class="list-name">تاقیگەی ئیبن سینا</div>
+              <div class="list-detail">خوێن، میز، ئێکسری · نرخ: لە ٥،٠٠٠ IQD</div>
+            </div>
+            <span class="badge badge-open">کراوەیە</span>
+          </div>
+          <div class="list-item">
+            <div class="list-icon">🔬</div>
+            <div class="list-info">
+              <div class="list-name">تاقیگەی رووناکی</div>
+              <div class="list-detail">هەموو جۆرە فەحسێک · ئەنجام: ٢٤ کاتژمێر</div>
+            </div>
+            <span class="badge badge-open">کراوەیە</span>
+          </div>
+          <div class="list-item">
+            <div class="list-icon">🔬</div>
+            <div class="list-info">
+              <div class="list-name">تاقیگەی ئارام</div>
+              <div class="list-detail">DNA، هۆرمۆن، سرطان، کۆلسترۆڵ</div>
+            </div>
+            <span class="badge badge-h24">٢٤ کاتژمێر</span>
+          </div>
+          <div class="list-item">
+            <div class="list-icon">🔬</div>
+            <div class="list-info">
+              <div class="list-name">تاقیگەی هیوا</div>
+              <div class="list-detail">ئولتراسەوند، ئێکسری، MRI</div>
+            </div>
+            <span class="badge badge-open">کراوەیە</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- جۆری فەحسەکان و نرخ -->
+  <div class="lab-tests">
+    <div class="section-header">
+      <div class="section-title">جۆری فەحسەکان و نرخ</div>
+    </div>
+    <div class="test-grid">
+      <div class="test-card">
+        <div class="test-icon">🩸</div>
+        <div class="test-name">فەحسی خوێنی گشتی (CBC)</div>
+        <div class="test-price">٥،٠٠٠ — ١٠،٠٠٠ IQD</div>
+        <div class="test-time">⏱ ئەنجام: ٢-٤ کاتژمێر</div>
+      </div>
+      <div class="test-card">
+        <div class="test-icon">🍬</div>
+        <div class="test-name">شکرەی خوێن (Glucose)</div>
+        <div class="test-price">٣،٠٠٠ — ٧،٠٠٠ IQD</div>
+        <div class="test-time">⏱ ئەنجام: ١-٢ کاتژمێر</div>
+      </div>
+      <div class="test-card">
+        <div class="test-icon">🫀</div>
+        <div class="test-name">کۆلسترۆڵ (Lipid Panel)</div>
+        <div class="test-price">١٠،٠٠٠ — ٢٠،٠٠٠ IQD</div>
+        <div class="test-time">⏱ ئەنجام: ٤-٦ کاتژمێر</div>
+      </div>
+      <div class="test-card">
+        <div class="test-icon">🔴</div>
+        <div class="test-name">فەحسی تایرۆید (TSH)</div>
+        <div class="test-price">١٥،٠٠٠ — ٢٥،٠٠٠ IQD</div>
+        <div class="test-time">⏱ ئەنجام: ١٢-٢٤ کاتژمێر</div>
+      </div>
+      <div class="test-card">
+        <div class="test-icon">🧫</div>
+        <div class="test-name">فەحسی کەڵێنی (Kidney)</div>
+        <div class="test-price">١٢،٠٠٠ — ٢٢،٠٠٠ IQD</div>
+        <div class="test-time">⏱ ئەنجام: ٤-٨ کاتژمێر</div>
+      </div>
+      <div class="test-card">
+        <div class="test-icon">🫁</div>
+        <div class="test-name">فەحسی قەراغ (Liver)</div>
+        <div class="test-price">١٢،٠٠٠ — ٢٠،٠٠٠ IQD</div>
+        <div class="test-time">⏱ ئەنجام: ٤-٨ کاتژمێر</div>
+      </div>
+      <div class="test-card">
+        <div class="test-icon">🦠</div>
+        <div class="test-name">فەحسی COVID-19</div>
+        <div class="test-price">٢٠،٠٠٠ — ٣٥،٠٠٠ IQD</div>
+        <div class="test-time">⏱ ئەنجام: ١-٢٤ کاتژمێر</div>
+      </div>
+      <div class="test-card">
+        <div class="test-icon">🔬</div>
+        <div class="test-name">فەحسی میز (Urine)</div>
+        <div class="test-price">٣،٠٠٠ — ٨،٠٠٠ IQD</div>
+        <div class="test-time">⏱ ئەنجام: ١-٣ کاتژمێر</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- بانکی خوێن -->
+  <div class="blood-section">
+    <div class="section-header">
+      <div class="section-title">بانکی خوێن</div>
+    </div>
+    <div class="blood-card">
+      <div class="blood-left">
+        <h3>🩸 داوای خوێن هەیە ئێستا!</h3>
+        <p>نەخۆشانمان پێویستیان بە خوێن هەیە. تۆ دەتوانی ژیانێک ڕزگار بکەیت. تۆمار بکە وەک بەخشەری خوێن یان داواکاری خوێن بکە بۆ نەخۆشەکەت.</p>
+        <div class="blood-btns">
+          <button class="btn-blood-donate">🩸 بەخشینی خوێن</button>
+          <button class="btn-blood-request">📋 داواکاری خوێن</button>
+        </div>
+      </div>
+      <div class="blood-groups">
+        <div class="blood-chip blood-need">A+<div class="blood-chip-label">پێویست</div></div>
+        <div class="blood-chip blood-ok">A-<div class="blood-chip-label">باشە</div></div>
+        <div class="blood-chip blood-need">B+<div class="blood-chip-label">پێویست</div></div>
+        <div class="blood-chip blood-low">B-<div class="blood-chip-label">کەمە</div></div>
+        <div class="blood-chip blood-need">O+<div class="blood-chip-label">پێویست</div></div>
+        <div class="blood-chip blood-need">O-<div class="blood-chip-label">پێویست</div></div>
+        <div class="blood-chip blood-ok">AB+<div class="blood-chip-label">باشە</div></div>
+        <div class="blood-chip blood-ok">AB-<div class="blood-chip-label">باشە</div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- نەخۆشخانەکان -->
+  <div class="hospitals-section">
+    <div class="section-header">
+      <div class="section-title">نەخۆشخانەکان</div>
+      <a class="see-all" href="#">هەموویان ببینە →</a>
+    </div>
+    <div class="hospital-grid">
+      <div class="hospital-card">
+        <div class="hospital-icon">🏥</div>
+        <div class="hospital-info">
+          <div class="hospital-name">نەخۆشخانەی ئازادی</div>
+          <div class="hospital-type">نەخۆشخانەی گشتی — حکوومی</div>
+          <div class="hospital-loc">📍 هەولێر، گۆڕەپانی ئازادی · ☎ 0750-xxx-xxxx</div>
+          <div class="hospital-footer">
+            <span class="badge badge-open">کراوەیە ٢٤/٧</span>
+            <span class="badge badge-h24">ئەمەرجەنسی</span>
+            <span class="verified-badge">✅ مۆڵەتی وەزارەت</span>
+          </div>
+        </div>
+      </div>
+      <div class="hospital-card">
+        <div class="hospital-icon">🏥</div>
+        <div class="hospital-info">
+          <div class="hospital-name">نەخۆشخانەی هیوا</div>
+          <div class="hospital-type">نەخۆشخانەی گشتی — تایبەت</div>
+          <div class="hospital-loc">📍 سلێمانی، گۆڕەپانی هیوا · ☎ 0770-xxx-xxxx</div>
+          <div class="hospital-footer">
+            <span class="badge badge-open">کراوەیە ٢٤/٧</span>
+            <span class="badge badge-h24">ئەمەرجەنسی</span>
+            <span class="verified-badge">✅ مۆڵەتی وەزارەت</span>
+          </div>
+        </div>
+      </div>
+      <div class="hospital-card">
+        <div class="hospital-icon">🏥</div>
+        <div class="hospital-info">
+          <div class="hospital-name">نەخۆشخانەی ژیان</div>
+          <div class="hospital-type">نەخۆشخانەی تایبەت</div>
+          <div class="hospital-loc">📍 دهۆک، ناوەندی شار · ☎ 0780-xxx-xxxx</div>
+          <div class="hospital-footer">
+            <span class="badge badge-open">کراوەیە</span>
+            <span class="verified-badge">✅ مۆڵەتی وەزارەت</span>
+          </div>
+        </div>
+      </div>
+      <div class="hospital-card">
+        <div class="hospital-icon">🏥</div>
+        <div class="hospital-info">
+          <div class="hospital-name">نەخۆشخانەی رووناک</div>
+          <div class="hospital-type">نەخۆشخانەی پسپۆڕ — دڵ</div>
+          <div class="hospital-loc">📍 کەرکووک، شەقامی مەدنی · ☎ 0760-xxx-xxxx</div>
+          <div class="hospital-footer">
+            <span class="badge badge-open">کراوەیە</span>
+            <span class="badge badge-h24">ئەمەرجەنسی</span>
+            <span class="verified-badge">✅ مۆڵەتی وەزارەت</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ڕێنمای تەندرووستی -->
+  <div class="health-guide">
+    <div class="section-header">
+      <div class="section-title">ڕێنمای تەندرووستی</div>
+      <a class="see-all" href="#">هەموو بابەتەکان →</a>
+    </div>
+    <div class="guide-grid">
+      <div class="guide-card virus">
+        <div class="guide-emoji">🦠</div>
+        <div class="guide-title">پەتا و فایرووس</div>
+        <div class="guide-desc">نیشانەکان، ڕێگای پاراستن، کاتی چوونە دکتۆر، و دەرمانکردنی سادەی خۆ لە ماڵ</div>
+        <div class="guide-link">زیاتر بخوێنەوە →</div>
+      </div>
+      <div class="guide-card mental">
+        <div class="guide-emoji">🧠</div>
+        <div class="guide-title">تەندرووستی دەروونی</div>
+        <div class="guide-desc">ستریس، تروما، دەپرێشن — ئاگایی و ڕێنمای بەخۆڕایی بۆ تەندرووستی دەروونی</div>
+        <div class="guide-link">زیاتر بخوێنەوە →</div>
+      </div>
+      <div class="guide-card child">
+        <div class="guide-emoji">👶</div>
+        <div class="guide-title">منداڵ و دایکایەتی</div>
+        <div class="guide-desc">جەدوەلی واکسین، گەشەپێدانی منداڵ، تەندرووستی دووگیانی و مامەڵاتەکانی دوای لەدایکبوون</div>
+        <div class="guide-link">زیاتر بخوێنەوە →</div>
+      </div>
+      <div class="guide-card heart">
+        <div class="guide-emoji">❤️</div>
+        <div class="guide-title">تەندرووستی دڵ</div>
+        <div class="guide-desc">ڕێگای پاراستنی دڵ، خواردنی گونجاو، وەرزش، و تەشخیسکردنی نیشانەی کەسی خوێن</div>
+        <div class="guide-link">زیاتر بخوێنەوە →</div>
+      </div>
+      <div class="guide-card diet">
+        <div class="guide-emoji">🥗</div>
+        <div class="guide-title">خواردن و دیێت</div>
+        <div class="guide-desc">خواردنی تەندروو، کۆنترۆڵی شکر و کۆلسترۆڵ، و ڕێنمای کەمکردنەوەی کێش</div>
+        <div class="guide-link">زیاتر بخوێنەوە →</div>
+      </div>
+      <div class="guide-card vaccine">
+        <div class="guide-emoji">💉</div>
+        <div class="guide-title">واکسین و پاراستن</div>
+        <div class="guide-desc">جەدوەلی واکسینی منداڵ و گەورە، کاتی دیاریکراو، و ئەوانەی پێویستن</div>
+        <div class="guide-link">زیاتر بخوێنەوە →</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- پرۆفایلی نەخۆش -->
+  <div class="profile-section">
+    <div class="section-header">
+      <div class="section-title">پرۆفایلی من</div>
+    </div>
+    <div class="profile-grid">
+      <div class="profile-card">
+        <div class="profile-avatar">👤</div>
+        <div class="profile-name">ئاراس ئەحمەد</div>
+        <div class="profile-id">ناسنامەی نەخۆش: #KH-٢٠٢٤-٠٠١</div>
+        <div class="profile-info">
+          <div class="profile-row">
+            <span class="profile-key">تەمەن</span>
+            <span class="profile-val">٣٢ ساڵ</span>
+          </div>
+          <div class="profile-row">
+            <span class="profile-key">گروپی خوێن</span>
+            <span class="profile-val">O+</span>
+          </div>
+          <div class="profile-row">
+            <span class="profile-key">ئەلەرجی</span>
+            <span class="profile-val">پێنسیلین</span>
+          </div>
+          <div class="profile-row">
+            <span class="profile-key">دەرمانی ئێستا</span>
+            <span class="profile-val">مەتفۆرمین</span>
+          </div>
+          <div class="profile-row">
+            <span class="profile-key">نەخۆشی باوی</span>
+            <span class="profile-val">شکری خوێن نوع ٢</span>
+          </div>
+        </div>
+        <div class="profile-actions">
+          <button class="btn-profile btn-profile-primary">📥 PDF دەربهێنە</button>
+          <button class="btn-profile btn-profile-outline">✏️ دەستکاریکردن</button>
+        </div>
+      </div>
+
+      <div class="history-card">
+        <div class="history-header">📋 مێژووی نەخۆشیم</div>
+        <div class="list-items">
+          <div class="history-item">
+            <div class="history-icon" style="background:#e8f5ee">👨‍⚕️</div>
+            <div class="history-info">
+              <div class="history-title">وانەی د. ئەرشەد محەمەد</div>
+              <div class="history-sub">دەروونپزیشک — کلینیکی ژیان، هەولێر</div>
+            </div>
+            <div style="text-align:left">
+              <div class="history-date">١٥ نیسان ٢٠٢٤</div>
+              <span class="history-status" style="background:#e8f5ee;color:#1a7a4a">تەواوبوو</span>
+            </div>
+          </div>
+          <div class="history-item">
+            <div class="history-icon" style="background:#fff3e0">🔬</div>
+            <div class="history-info">
+              <div class="history-title">فەحسی خوێنی گشتی (CBC)</div>
+              <div class="history-sub">تاقیگەی ئیبن سینا — هەولێر</div>
+            </div>
+            <div style="text-align:left">
+              <div class="history-date">١٠ نیسان ٢٠٢٤</div>
+              <span class="history-status" style="background:#e6f1fb;color:#185fa5">ئەنجام ئامادەیە</span>
+            </div>
+          </div>
+          <div class="history-item">
+            <div class="history-icon" style="background:#f0f4ff">💊</div>
+            <div class="history-info">
+              <div class="history-title">نووسینی نوسخە — مەتفۆرمین ٥٠٠mg</div>
+              <div class="history-sub">د. کامەران عومەر — دهۆک</div>
+            </div>
+            <div style="text-align:left">
+              <div class="history-date">٢ نیسان ٢٠٢٤</div>
+              <span class="history-status" style="background:#fff3e0;color:#e67e00">چالاک</span>
+            </div>
+          </div>
+          <div class="history-item">
+            <div class="history-icon" style="background:#e8f5ee">👶</div>
+            <div class="history-info">
+              <div class="history-title">وانەی د. شنو سەلیم</div>
+              <div class="history-sub">پسپۆڕی منداڵان — سلێمانی</div>
+            </div>
+            <div style="text-align:left">
+              <div class="history-date">٢٥ ئازار ٢٠٢٤</div>
+              <span class="history-status" style="background:#e8f5ee;color:#1a7a4a">تەواوبوو</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ئەمەرجەنسی -->
+  <div class="emergency-section" id="emg">
+    <div class="section-header">
+      <div class="section-title">🚨 ئەمەرجەنسی</div>
+    </div>
+    <div class="emergency-card">
+      <div class="emergency-left">
+        <h3>پێویستی بە یارمەتی خێرات هەیە؟</h3>
+        <p>بۆ کاری فریاگوزاری یەک کلیک بکە — ئەمبولانس، پۆلیس، یان ئاگرکوژێنەوە</p>
+        <div class="emergency-nearest">
+          <button class="emg-near-btn">🏥 نزیکترین نەخۆشخانە</button>
+          <button class="emg-near-btn">🚑 داواکردنی ئامبولانس</button>
+        </div>
+      </div>
+      <div class="emergency-nums">
+        <div class="emg-num-card">
+          <div class="number">١١٥</div>
+          <div class="label">ئامبولانس</div>
+        </div>
+        <div class="emg-num-card">
+          <div class="number">١٢٢</div>
+          <div class="label">پۆلیس</div>
+        </div>
+        <div class="emg-num-card">
+          <div class="number">١٢٣</div>
+          <div class="label">ئاگرکوژێنەوە</div>
+        </div>
+        <div class="emg-num-card">
+          <div class="number">١٠٤</div>
+          <div class="label">تەندرووستی</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div><!-- /main -->
+
+<!-- ===== FOOTER ===== -->
+<footer>
+  <div class="footer-inner">
+    <div class="footer-top">
+      <div>
+        <div class="footer-logo">
+          <div class="footer-logo-icon">🏥</div>
+          <div class="footer-logo-text">تەندروستی کوردستان</div>
+        </div>
+        <p class="footer-desc">پلاتفۆرمی دیجیتاڵی تەندرووستی بۆ هاوڵاتیانی کوردستان — دکتۆر، دەرمانخانە، تاقیگە، و ئەمەرجەنسی هەمووی لە یەک شوێن.</p>
+        <div class="footer-social">
+          <div class="social-btn">📘</div>
+          <div class="social-btn">📷</div>
+          <div class="social-btn">📱</div>
+          <div class="social-btn">💬</div>
+        </div>
+      </div>
+      <div class="footer-col">
+        <h4>خزمەتگوزاری</h4>
+        <ul>
+          <li><a href="#">دکتۆران</a></li>
+          <li><a href="#">نەخۆشخانەکان</a></li>
+          <li><a href="#">سەیدەلیەکان</a></li>
+          <li><a href="#">تاقیگەکان</a></li>
+          <li><a href="#">بانکی خوێن</a></li>
+          <li><a href="#">ئەمەرجەنسی</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>زانیاری</h4>
+        <ul>
+          <li><a href="#">دەربارەی ئێمە</a></li>
+          <li><a href="#">تیمی کار</a></li>
+          <li><a href="#">ڕێکەوتنامەی ئێمە</a></li>
+          <li><a href="#">سیاسەتی تایبەتمەندی</a></li>
+          <li><a href="#">پەیوەندیمان پێوە بکە</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>بۆ دکتۆران</h4>
+        <ul>
+          <li><a href="#">تۆمارکردن وەک دکتۆر</a></li>
+          <li><a href="#">بەرپرسیارێتییەکان</a></li>
+          <li><a href="#">ئامانجی پلاتفۆرم</a></li>
+          <li><a href="#">داشبۆردی دکتۆر</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>زمان</h4>
+        <ul>
+          <li><a href="#">🇹🇯 کوردی سۆرانی</a></li>
+          <li><a href="#">🇹🇯 کوردی کرمانجی</a></li>
+          <li><a href="#">🇮🇶 عەرەبی</a></li>
+          <li><a href="#">🇬🇧 English</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>© ٢٠٢٤ تەندروستی کوردستان — هەموو مافێکی پارێزراوە</p>
+      <div class="footer-langs">
+        <button class="lang-btn active">سۆرانی</button>
+        <button class="lang-btn">کرمانجی</button>
+        <button class="lang-btn">عربي</button>
+        <button class="lang-btn">EN</button>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script>
+// ئەکتیفکردنی مێنیو
+document.querySelectorAll('nav a').forEach(link => {
+  link.addEventListener('click', function(e) {
+    e.preventDefault();
+    document.querySelectorAll('nav a').forEach(l => l.classList.remove('active'));
+    this.classList.add('active');
+  });
+});
+
+// داخستنی ئاگاداری
+document.querySelector('.reminder-close').addEventListener('click', function() {
+  this.closest('.reminder-card').style.display = 'none';
+});
+
+// کلیک لەسەر گروپی خوێن
+document.querySelectorAll('.blood-chip').forEach(chip => {
+  chip.addEventListener('click', function() {
+    alert('داواکاری خوێنی ' + this.textContent.trim().split('\n')[0] + ' ناردرا!');
+  });
+});
+
+// کلیک لەسەر دووگمەی زمان
+document.querySelectorAll('.lang-btn').forEach(btn => {
+  btn.addEventListener('click', function() {
+    document.querySelectorAll('.lang-btn').forEach(b => b.classList.remove('active'));
+    this.classList.add('active');
+  });
+});
+
+// کلیک لەسەر دووگمەی فلتەر
+document.querySelectorAll('.filter-chip').forEach(chip => {
+  chip.addEventListener('click', function() {
+    this.style.background = 'rgba(255,255,255,0.35)';
+    this.style.border = '1px solid rgba(255,255,255,0.5)';
+  });
+});
+
+// کلیک لەسەر ئەپۆینتمەنت
+document.querySelectorAll('.btn-appt').forEach(btn => {
+  btn.addEventListener('click', function(e) {
+    e.stopPropagation();
+    const name = this.closest('.doctor-card').querySelector('.doctor-name').textContent;
+    alert('داواکاری ئەپۆینتمەنت لەگەڵ ' + name + ' ناردرا!');
+  });
+});
+</script>
+
+</body>
+</html>
