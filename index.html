@@ -4,1262 +4,902 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>کوردستان تا جیهان</title>
-<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Arabic:wght@300;400;600;700;900&family=Cinzel:wght@700;900&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Arabic:wght@300;400;600;700;900&display=swap" rel="stylesheet">
 <style>
-  :root {
-    --gold: #D4AF37;
-    --gold-light: #F4D03F;
-    --gold-dark: #A07D1C;
-    --green: #1A5C2A;
-    --green-light: #27AE60;
-    --red: #8B1A1A;
-    --red-light: #E74C3C;
-    --cream: #FDF6E3;
-    --dark: #0D0D0D;
-    --dark2: #1A1A1A;
-    --dark3: #252525;
-    --text: #F0E6C8;
-    --text-muted: #A89060;
-    --player1: #E74C3C;
-    --player2: #3498DB;
-    --player3: #2ECC71;
-    --player4: #F39C12;
-    --player5: #9B59B6;
-  }
-
-  * { margin: 0; padding: 0; box-sizing: border-box; }
-
-  body {
-    font-family: 'Noto Sans Arabic', sans-serif;
-    background: var(--dark);
-    color: var(--text);
-    min-height: 100vh;
-    overflow-x: hidden;
-    direction: rtl;
-  }
-
-  /* Animated background */
-  body::before {
-    content: '';
-    position: fixed;
-    inset: 0;
-    background: 
-      radial-gradient(ellipse at 20% 20%, rgba(212,175,55,0.08) 0%, transparent 50%),
-      radial-gradient(ellipse at 80% 80%, rgba(26,92,42,0.1) 0%, transparent 50%),
-      radial-gradient(ellipse at 50% 50%, rgba(139,26,26,0.05) 0%, transparent 70%);
-    pointer-events: none;
-    z-index: 0;
-  }
-
-  /* Geometric pattern overlay */
-  body::after {
-    content: '';
-    position: fixed;
-    inset: 0;
-    background-image: 
-      repeating-linear-gradient(45deg, transparent, transparent 40px, rgba(212,175,55,0.02) 40px, rgba(212,175,55,0.02) 41px),
-      repeating-linear-gradient(-45deg, transparent, transparent 40px, rgba(212,175,55,0.02) 40px, rgba(212,175,55,0.02) 41px);
-    pointer-events: none;
-    z-index: 0;
-  }
-
-  .container {
-    position: relative;
-    z-index: 1;
-    max-width: 1100px;
-    margin: 0 auto;
-    padding: 20px;
-  }
-
-  /* ===== SCREENS ===== */
-  .screen { display: none; animation: fadeIn 0.5s ease; }
-  .screen.active { display: block; }
-
-  @keyframes fadeIn {
-    from { opacity: 0; transform: translateY(20px); }
-    to { opacity: 1; transform: translateY(0); }
-  }
-
-  /* ===== HEADER ===== */
-  .game-header {
-    text-align: center;
-    padding: 40px 20px 30px;
-  }
-
-  .game-title {
-    font-family: 'Noto Sans Arabic', sans-serif;
-    font-size: clamp(2rem, 6vw, 4rem);
-    font-weight: 900;
-    background: linear-gradient(135deg, var(--gold-light), var(--gold), var(--gold-dark));
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-    line-height: 1.1;
-    letter-spacing: -1px;
-    text-shadow: none;
-  }
-
-  .game-subtitle {
-    font-size: 1rem;
-    color: var(--text-muted);
-    margin-top: 8px;
-    letter-spacing: 3px;
-    text-transform: uppercase;
-  }
-
-  .title-decoration {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 16px;
-    margin: 16px 0;
-  }
-
-  .title-decoration::before,
-  .title-decoration::after {
-    content: '';
-    flex: 1;
-    max-width: 120px;
-    height: 1px;
-    background: linear-gradient(90deg, transparent, var(--gold), transparent);
-  }
-
-  .title-star {
-    color: var(--gold);
-    font-size: 1.2rem;
-  }
-
-  /* ===== SETUP SCREEN ===== */
-  .setup-card {
-    background: linear-gradient(135deg, var(--dark2), var(--dark3));
-    border: 1px solid rgba(212,175,55,0.2);
-    border-radius: 20px;
-    padding: 40px;
-    margin: 20px 0;
-    box-shadow: 0 20px 60px rgba(0,0,0,0.5), inset 0 1px 0 rgba(212,175,55,0.1);
-  }
-
-  .setup-title {
-    font-size: 1.1rem;
-    color: var(--gold);
-    font-weight: 600;
-    margin-bottom: 20px;
-    display: flex;
-    align-items: center;
-    gap: 10px;
-  }
-
-  .setup-title::after {
-    content: '';
-    flex: 1;
-    height: 1px;
-    background: rgba(212,175,55,0.2);
-  }
-
-  /* Player count selector */
-  .player-count-grid {
-    display: flex;
-    gap: 12px;
-    flex-wrap: wrap;
-    margin-bottom: 30px;
-  }
-
-  .count-btn {
-    flex: 1;
-    min-width: 80px;
-    padding: 20px 10px;
-    background: var(--dark3);
-    border: 2px solid rgba(212,175,55,0.15);
-    border-radius: 14px;
-    color: var(--text-muted);
-    font-family: inherit;
-    font-size: 1.5rem;
-    font-weight: 700;
-    cursor: pointer;
-    transition: all 0.3s;
-    text-align: center;
-  }
-
-  .count-btn span {
-    display: block;
-    font-size: 0.65rem;
-    font-weight: 400;
-    margin-top: 4px;
-    letter-spacing: 1px;
-  }
-
-  .count-btn:hover {
-    border-color: var(--gold);
-    color: var(--gold);
-    transform: translateY(-3px);
-    box-shadow: 0 8px 24px rgba(212,175,55,0.15);
-  }
-
-  .count-btn.selected {
-    background: linear-gradient(135deg, rgba(212,175,55,0.15), rgba(212,175,55,0.05));
-    border-color: var(--gold);
-    color: var(--gold);
-    box-shadow: 0 0 20px rgba(212,175,55,0.2);
-  }
-
-  /* Player name inputs */
-  .players-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-    gap: 16px;
-    margin-bottom: 30px;
-  }
-
-  .player-input-wrap {
-    position: relative;
-  }
-
-  .player-color-dot {
-    position: absolute;
-    right: 14px;
-    top: 50%;
-    transform: translateY(-50%);
-    width: 10px;
-    height: 10px;
-    border-radius: 50%;
-  }
-
-  .player-input {
-    width: 100%;
-    padding: 14px 40px 14px 16px;
-    background: var(--dark);
-    border: 2px solid rgba(255,255,255,0.08);
-    border-radius: 12px;
-    color: var(--text);
-    font-family: inherit;
-    font-size: 0.95rem;
-    transition: all 0.3s;
-    text-align: right;
-  }
-
-  .player-input:focus {
-    outline: none;
-    border-color: rgba(212,175,55,0.4);
-    background: rgba(212,175,55,0.04);
-  }
-
-  /* Question count */
-  .q-count-row {
-    display: flex;
-    align-items: center;
-    gap: 16px;
-    margin-bottom: 30px;
-    flex-wrap: wrap;
-  }
-
-  .q-count-label {
-    color: var(--text-muted);
-    font-size: 0.9rem;
-    white-space: nowrap;
-  }
-
-  .q-btns {
-    display: flex;
-    gap: 8px;
-  }
-
-  .q-btn {
-    padding: 8px 20px;
-    background: var(--dark3);
-    border: 1px solid rgba(212,175,55,0.15);
-    border-radius: 8px;
-    color: var(--text-muted);
-    font-family: inherit;
-    font-size: 0.9rem;
-    cursor: pointer;
-    transition: all 0.2s;
-  }
-
-  .q-btn:hover, .q-btn.selected {
-    border-color: var(--gold);
-    color: var(--gold);
-  }
-
-  /* Category selector */
-  .category-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
-    gap: 12px;
-    margin-bottom: 30px;
-  }
-
-  .cat-btn {
-    padding: 16px 12px;
-    background: var(--dark3);
-    border: 2px solid rgba(212,175,55,0.12);
-    border-radius: 14px;
-    color: var(--text-muted);
-    font-family: inherit;
-    font-size: 0.85rem;
-    cursor: pointer;
-    transition: all 0.3s;
-    text-align: center;
-    line-height: 1.4;
-  }
-
-  .cat-btn .cat-icon { font-size: 1.6rem; display: block; margin-bottom: 6px; }
-
-  .cat-btn:hover {
-    border-color: rgba(212,175,55,0.4);
-    color: var(--text);
-    transform: translateY(-2px);
-  }
-
-  .cat-btn.selected {
-    border-color: var(--gold);
-    color: var(--gold);
-    background: rgba(212,175,55,0.08);
-  }
-
-  /* Start button */
-  .btn-start {
-    width: 100%;
-    padding: 20px;
-    background: linear-gradient(135deg, var(--gold), var(--gold-dark));
-    border: none;
-    border-radius: 14px;
-    color: var(--dark);
-    font-family: inherit;
-    font-size: 1.2rem;
-    font-weight: 700;
-    cursor: pointer;
-    transition: all 0.3s;
-    letter-spacing: 1px;
-    box-shadow: 0 8px 30px rgba(212,175,55,0.3);
-  }
-
-  .btn-start:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 12px 40px rgba(212,175,55,0.4);
-  }
-
-  .btn-start:active { transform: translateY(0); }
-
-  /* ===== GAME SCREEN ===== */
-
-  /* Scoreboard */
-  .scoreboard {
-    display: flex;
-    gap: 10px;
-    margin-bottom: 20px;
-    overflow-x: auto;
-    padding-bottom: 4px;
-  }
-
-  .score-card {
-    flex: 1;
-    min-width: 120px;
-    background: var(--dark2);
-    border: 2px solid rgba(255,255,255,0.06);
-    border-radius: 14px;
-    padding: 14px 12px;
-    text-align: center;
-    transition: all 0.3s;
-    position: relative;
-    overflow: hidden;
-  }
-
-  .score-card.active-player {
-    border-color: var(--gold);
-    box-shadow: 0 0 20px rgba(212,175,55,0.2);
-    transform: translateY(-4px);
-  }
-
-  .score-card.active-player::before {
-    content: '▼ نۆبەتت';
-    position: absolute;
-    top: -1px;
-    left: 50%;
-    transform: translateX(-50%);
-    background: var(--gold);
-    color: var(--dark);
-    font-size: 0.6rem;
-    font-weight: 700;
-    padding: 2px 10px;
-    border-radius: 0 0 8px 8px;
-    white-space: nowrap;
-  }
-
-  .score-name {
-    font-size: 0.8rem;
-    font-weight: 600;
-    margin-top: 8px;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-  }
-
-  .score-points {
-    font-size: 1.8rem;
-    font-weight: 900;
-    line-height: 1;
-    margin: 4px 0;
-  }
-
-  .score-streak {
-    font-size: 0.65rem;
-    color: var(--text-muted);
-  }
-
-  /* Progress bar */
-  .progress-wrap {
-    background: var(--dark2);
-    border-radius: 20px;
-    height: 6px;
-    margin-bottom: 20px;
-    overflow: hidden;
-  }
-
-  .progress-bar {
-    height: 100%;
-    background: linear-gradient(90deg, var(--gold-dark), var(--gold-light));
-    border-radius: 20px;
-    transition: width 0.5s ease;
-  }
-
-  .progress-info {
-    display: flex;
-    justify-content: space-between;
-    font-size: 0.8rem;
-    color: var(--text-muted);
-    margin-bottom: 6px;
-  }
-
-  /* Timer */
-  .timer-wrap {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 12px;
-    margin-bottom: 24px;
-  }
-
-  .timer-ring {
-    position: relative;
-    width: 70px;
-    height: 70px;
-  }
-
-  .timer-ring svg {
-    transform: rotate(-90deg);
-  }
-
-  .timer-ring circle {
-    fill: none;
-    stroke-width: 5;
-    stroke-linecap: round;
-    transition: stroke-dashoffset 1s linear;
-  }
-
-  .timer-ring .bg { stroke: rgba(255,255,255,0.08); }
-  .timer-ring .fg { stroke: var(--gold); }
-
-  .timer-number {
-    position: absolute;
-    inset: 0;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 1.3rem;
-    font-weight: 900;
-    color: var(--gold);
-  }
-
-  /* Question card */
-  .question-card {
-    background: linear-gradient(135deg, var(--dark2), var(--dark3));
-    border: 1px solid rgba(212,175,55,0.2);
-    border-radius: 20px;
-    padding: 36px;
-    margin-bottom: 20px;
-    box-shadow: 0 20px 60px rgba(0,0,0,0.4);
-    position: relative;
-    overflow: hidden;
-  }
-
-  .question-card::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    right: 0;
-    width: 200px;
-    height: 200px;
-    background: radial-gradient(circle, rgba(212,175,55,0.06) 0%, transparent 70%);
-    pointer-events: none;
-  }
-
-  .question-category-badge {
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
-    padding: 5px 14px;
-    border-radius: 20px;
-    font-size: 0.75rem;
-    font-weight: 600;
-    margin-bottom: 18px;
-    letter-spacing: 0.5px;
-    border: 1px solid currentColor;
-  }
-
-  .question-text {
-    font-size: clamp(1.1rem, 3vw, 1.4rem);
-    font-weight: 600;
-    line-height: 1.6;
-    color: var(--text);
-  }
-
-  /* Answers grid */
-  .answers-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 14px;
-    margin-bottom: 20px;
-  }
-
-  .answer-btn {
-    padding: 20px 16px;
-    background: var(--dark2);
-    border: 2px solid rgba(255,255,255,0.08);
-    border-radius: 14px;
-    color: var(--text);
-    font-family: inherit;
-    font-size: 0.95rem;
-    font-weight: 500;
-    cursor: pointer;
-    transition: all 0.25s;
-    text-align: right;
-    line-height: 1.4;
-    position: relative;
-    overflow: hidden;
-  }
-
-  .answer-btn::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background: linear-gradient(135deg, transparent, rgba(255,255,255,0.02));
-  }
-
-  .answer-btn:hover:not(:disabled) {
-    border-color: var(--gold);
-    color: var(--gold);
-    transform: translateY(-2px);
-    box-shadow: 0 6px 20px rgba(212,175,55,0.15);
-  }
-
-  .answer-btn.correct {
-    background: rgba(39,174,96,0.15);
-    border-color: var(--green-light);
-    color: var(--green-light);
-    animation: correctPulse 0.5s ease;
-  }
-
-  .answer-btn.wrong {
-    background: rgba(231,76,60,0.12);
-    border-color: var(--red-light);
-    color: var(--red-light);
-    animation: shake 0.4s ease;
-  }
-
-  .answer-btn:disabled { cursor: not-allowed; }
-
-  @keyframes correctPulse {
-    0% { transform: scale(1); }
-    50% { transform: scale(1.03); }
-    100% { transform: scale(1); }
-  }
-
-  @keyframes shake {
-    0%, 100% { transform: translateX(0); }
-    25% { transform: translateX(-6px); }
-    75% { transform: translateX(6px); }
-  }
-
-  /* Feedback banner */
-  .feedback-banner {
-    padding: 16px 24px;
-    border-radius: 14px;
-    font-size: 1rem;
-    font-weight: 600;
-    text-align: center;
-    margin-bottom: 16px;
-    display: none;
-    animation: slideUp 0.3s ease;
-  }
-
-  .feedback-banner.show { display: block; }
-
-  .feedback-banner.correct-fb {
-    background: rgba(39,174,96,0.15);
-    border: 1px solid rgba(39,174,96,0.4);
-    color: var(--green-light);
-  }
-
-  .feedback-banner.wrong-fb {
-    background: rgba(231,76,60,0.1);
-    border: 1px solid rgba(231,76,60,0.3);
-    color: #ff8080;
-  }
-
-  @keyframes slideUp {
-    from { opacity: 0; transform: translateY(10px); }
-    to { opacity: 1; transform: translateY(0); }
-  }
-
-  /* Turn indicator */
-  .turn-indicator {
-    text-align: center;
-    padding: 14px;
-    background: var(--dark2);
-    border-radius: 12px;
-    font-size: 0.9rem;
-    margin-bottom: 20px;
-    border: 1px solid rgba(212,175,55,0.12);
-  }
-
-  .turn-name {
-    font-weight: 700;
-    font-size: 1.1rem;
-  }
-
-  /* ===== RESULTS SCREEN ===== */
-  .results-header {
-    text-align: center;
-    padding: 40px 20px 20px;
-  }
-
-  .trophy-emoji {
-    font-size: 5rem;
-    display: block;
-    margin-bottom: 16px;
-    animation: bounce 1s ease infinite;
-  }
-
-  @keyframes bounce {
-    0%, 100% { transform: translateY(0); }
-    50% { transform: translateY(-12px); }
-  }
-
-  .winner-name {
-    font-size: 2rem;
-    font-weight: 900;
-    background: linear-gradient(135deg, var(--gold-light), var(--gold));
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-  }
-
-  .winner-sub {
-    color: var(--text-muted);
-    margin-top: 6px;
-  }
-
-  .final-scores {
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
-    margin: 30px 0;
-  }
-
-  .final-score-row {
-    display: flex;
-    align-items: center;
-    gap: 16px;
-    background: var(--dark2);
-    border: 1px solid rgba(255,255,255,0.06);
-    border-radius: 14px;
-    padding: 18px 20px;
-    transition: all 0.3s;
-  }
-
-  .final-score-row:first-child {
-    border-color: var(--gold);
-    background: rgba(212,175,55,0.06);
-    box-shadow: 0 0 30px rgba(212,175,55,0.1);
-  }
-
-  .rank-badge {
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-weight: 900;
-    font-size: 1.1rem;
-    flex-shrink: 0;
-  }
-
-  .final-player-name {
-    flex: 1;
-    font-weight: 600;
-    font-size: 1rem;
-  }
-
-  .final-player-pts {
-    font-size: 1.4rem;
-    font-weight: 900;
-  }
-
-  .btn-restart {
-    width: 100%;
-    padding: 18px;
-    background: linear-gradient(135deg, var(--gold), var(--gold-dark));
-    border: none;
-    border-radius: 14px;
-    color: var(--dark);
-    font-family: inherit;
-    font-size: 1.1rem;
-    font-weight: 700;
-    cursor: pointer;
-    transition: all 0.3s;
-    margin-top: 10px;
-    letter-spacing: 0.5px;
-  }
-
-  .btn-restart:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 10px 30px rgba(212,175,55,0.35);
-  }
-
-  /* Points popup */
-  .pts-popup {
-    position: fixed;
-    pointer-events: none;
-    font-size: 1.5rem;
-    font-weight: 900;
-    color: var(--gold-light);
-    text-shadow: 0 2px 10px rgba(0,0,0,0.8);
-    z-index: 9999;
-    animation: floatUp 1.2s ease forwards;
-  }
-
-  @keyframes floatUp {
-    0% { opacity: 1; transform: translateY(0) scale(1); }
-    100% { opacity: 0; transform: translateY(-80px) scale(1.3); }
-  }
-
-  /* Responsive */
-  @media (max-width: 600px) {
-    .answers-grid { grid-template-columns: 1fr; }
-    .setup-card { padding: 24px; }
-    .question-card { padding: 24px; }
-    .scoreboard { gap: 6px; }
-    .score-card { min-width: 90px; padding: 10px 8px; }
-  }
+:root {
+  --gold:#D4AF37;--gold-l:#F4D03F;--gold-d:#A07D1C;
+  --green:#27AE60;--red:#E74C3C;--blue:#3498DB;--purple:#9B59B6;
+  --dark:#0D0D0D;--dark2:#181818;--dark3:#222;--dark4:#2a2a2a;
+  --text:#F0E6C8;--muted:#A89060;--faint:#5a4a30;
+  --p1:#E74C3C;--p2:#3498DB;--p3:#2ECC71;--p4:#F39C12;--p5:#9B59B6;
+  --bomb:#FF6B35;
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{
+  font-family:'Noto Sans Arabic',sans-serif;
+  background:var(--dark);color:var(--text);
+  min-height:100vh;overflow-x:hidden;direction:rtl;
+}
+body::before{
+  content:'';position:fixed;inset:0;pointer-events:none;z-index:0;
+  background:
+    radial-gradient(ellipse at 15% 15%,rgba(212,175,55,.07) 0%,transparent 50%),
+    radial-gradient(ellipse at 85% 85%,rgba(26,92,42,.09) 0%,transparent 50%),
+    repeating-linear-gradient(45deg,transparent,transparent 50px,rgba(212,175,55,.015) 50px,rgba(212,175,55,.015) 51px),
+    repeating-linear-gradient(-45deg,transparent,transparent 50px,rgba(212,175,55,.015) 50px,rgba(212,175,55,.015) 51px);
+}
+.wrap{position:relative;z-index:1;max-width:1080px;margin:0 auto;padding:16px;}
+
+/* SCREENS */
+.screen{display:none;animation:fadeUp .45s ease;}
+.screen.active{display:block;}
+@keyframes fadeUp{from{opacity:0;transform:translateY(18px);}to{opacity:1;transform:translateY(0);}}
+
+/* HEADER */
+.logo{text-align:center;padding:30px 10px 20px;}
+.logo h1{
+  font-size:clamp(1.8rem,5vw,3.2rem);font-weight:900;
+  background:linear-gradient(135deg,var(--gold-l),var(--gold),var(--gold-d));
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+  line-height:1.1;
+}
+.logo p{color:var(--muted);font-size:.85rem;letter-spacing:2px;margin-top:6px;}
+.divider{display:flex;align-items:center;gap:12px;margin:10px 0;}
+.divider::before,.divider::after{content:'';flex:1;height:1px;background:linear-gradient(90deg,transparent,var(--gold),transparent);}
+.divider span{color:var(--gold);font-size:1rem;}
+
+/* CARD */
+.card{
+  background:linear-gradient(135deg,var(--dark2),var(--dark3));
+  border:1px solid rgba(212,175,55,.18);border-radius:18px;
+  padding:28px;margin:14px 0;
+  box-shadow:0 16px 50px rgba(0,0,0,.45),inset 0 1px 0 rgba(212,175,55,.08);
+}
+.section-label{
+  font-size:.9rem;color:var(--gold);font-weight:600;
+  margin-bottom:14px;display:flex;align-items:center;gap:8px;
+}
+.section-label::after{content:'';flex:1;height:1px;background:rgba(212,175,55,.18);}
+
+/* PLAYER COUNT */
+.cnt-row{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:20px;}
+.cnt-btn{
+  flex:1;min-width:70px;padding:16px 8px;
+  background:var(--dark3);border:2px solid rgba(212,175,55,.12);
+  border-radius:12px;color:var(--muted);font-family:inherit;
+  font-size:1.4rem;font-weight:700;cursor:pointer;transition:all .25s;text-align:center;
+}
+.cnt-btn span{display:block;font-size:.6rem;font-weight:400;margin-top:3px;}
+.cnt-btn:hover,.cnt-btn.sel{border-color:var(--gold);color:var(--gold);transform:translateY(-2px);box-shadow:0 6px 20px rgba(212,175,55,.15);}
+.cnt-btn.sel{background:rgba(212,175,55,.08);}
+
+/* PLAYER INPUTS */
+.players-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px;margin-bottom:20px;}
+.p-wrap{position:relative;}
+.p-dot{position:absolute;right:12px;top:50%;transform:translateY(-50%);width:9px;height:9px;border-radius:50%;}
+.p-inp{
+  width:100%;padding:12px 36px 12px 14px;
+  background:var(--dark);border:2px solid rgba(255,255,255,.07);
+  border-radius:10px;color:var(--text);font-family:inherit;font-size:.9rem;
+  transition:all .25s;text-align:right;
+}
+.p-inp:focus{outline:none;border-color:rgba(212,175,55,.4);background:rgba(212,175,55,.03);}
+
+/* OPTIONS ROW */
+.opt-row{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:18px;}
+.opt-label{color:var(--muted);font-size:.85rem;white-space:nowrap;}
+.opt-btns{display:flex;gap:7px;flex-wrap:wrap;}
+.opt-btn{
+  padding:7px 18px;background:var(--dark3);
+  border:1px solid rgba(212,175,55,.13);border-radius:8px;
+  color:var(--muted);font-family:inherit;font-size:.85rem;cursor:pointer;transition:all .2s;
+}
+.opt-btn:hover,.opt-btn.sel{border-color:var(--gold);color:var(--gold);}
+
+/* CATEGORIES */
+.cat-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(110px,1fr));gap:10px;margin-bottom:20px;}
+.cat-btn{
+  padding:14px 8px;background:var(--dark3);border:2px solid rgba(212,175,55,.1);
+  border-radius:12px;color:var(--muted);font-family:inherit;font-size:.8rem;
+  cursor:pointer;transition:all .25s;text-align:center;line-height:1.5;
+}
+.cat-btn .ci{font-size:1.4rem;display:block;margin-bottom:4px;}
+.cat-btn:hover,.cat-btn.sel{border-color:var(--gold);color:var(--gold);background:rgba(212,175,55,.07);transform:translateY(-2px);}
+
+/* RULES PANEL */
+.rules-box{
+  background:rgba(212,175,55,.05);border:1px solid rgba(212,175,55,.15);
+  border-radius:12px;padding:18px;margin-bottom:18px;
+}
+.rules-box h3{color:var(--gold);font-size:.9rem;margin-bottom:10px;}
+.rule-item{
+  display:flex;align-items:flex-start;gap:10px;
+  padding:7px 0;border-bottom:1px solid rgba(212,175,55,.08);font-size:.82rem;color:var(--text);line-height:1.5;
+}
+.rule-item:last-child{border:none;}
+.rule-icon{font-size:1rem;flex-shrink:0;margin-top:1px;}
+
+/* START BTN */
+.btn-start{
+  width:100%;padding:18px;
+  background:linear-gradient(135deg,var(--gold),var(--gold-d));
+  border:none;border-radius:12px;color:var(--dark);
+  font-family:inherit;font-size:1.1rem;font-weight:700;cursor:pointer;
+  transition:all .3s;letter-spacing:.5px;
+  box-shadow:0 8px 28px rgba(212,175,55,.28);
+}
+.btn-start:hover{transform:translateY(-3px);box-shadow:0 12px 36px rgba(212,175,55,.38);}
+
+/* GAME SCREEN */
+.scoreboard{display:flex;gap:8px;margin-bottom:14px;overflow-x:auto;padding-bottom:4px;}
+.sc-card{
+  flex:1;min-width:100px;background:var(--dark2);border:2px solid rgba(255,255,255,.05);
+  border-radius:12px;padding:12px 8px;text-align:center;transition:all .3s;position:relative;overflow:hidden;
+}
+.sc-card.active{border-color:var(--gold);transform:translateY(-4px);box-shadow:0 0 18px rgba(212,175,55,.2);}
+.sc-card.active::before{
+  content:'نۆبەتت';position:absolute;top:0;left:50%;transform:translateX(-50%);
+  background:var(--gold);color:var(--dark);font-size:.55rem;font-weight:700;
+  padding:2px 10px;border-radius:0 0 8px 8px;
+}
+.sc-card.elim{opacity:.4;filter:grayscale(1);}
+.sc-pts{font-size:1.6rem;font-weight:900;line-height:1;margin-top:6px;}
+.sc-name{font-size:.72rem;font-weight:600;margin-top:3px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+.sc-lives{font-size:.75rem;margin-top:2px;letter-spacing:1px;}
+
+/* LIVES / ERRORS */
+.heart{display:inline-block;transition:transform .2s;}
+.heart.lost{opacity:.25;filter:grayscale(1);transform:scale(.8);}
+
+.prog-info{display:flex;justify-content:space-between;font-size:.78rem;color:var(--muted);margin-bottom:5px;}
+.prog-wrap{background:var(--dark2);border-radius:20px;height:5px;margin-bottom:14px;overflow:hidden;}
+.prog-bar{height:100%;background:linear-gradient(90deg,var(--gold-d),var(--gold-l));border-radius:20px;transition:width .5s ease;}
+
+.turn-ind{
+  text-align:center;padding:11px;background:var(--dark2);
+  border:1px solid rgba(212,175,55,.1);border-radius:10px;
+  font-size:.85rem;margin-bottom:14px;
+}
+.turn-name{font-weight:700;font-size:1rem;}
+
+/* TIMER */
+.timer-wrap{display:flex;align-items:center;justify-content:center;gap:10px;margin-bottom:18px;}
+.timer-ring{position:relative;width:64px;height:64px;}
+.timer-ring svg{transform:rotate(-90deg);}
+.timer-ring circle{fill:none;stroke-width:5;stroke-linecap:round;transition:stroke-dashoffset 1s linear;}
+.t-bg{stroke:rgba(255,255,255,.07);}
+.t-fg{stroke:var(--gold);}
+.t-num{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:1.2rem;font-weight:900;color:var(--gold);}
+
+/* BOMB QUESTION BADGE */
+.q-badge{
+  display:inline-flex;align-items:center;gap:6px;
+  padding:5px 14px;border-radius:20px;font-size:.72rem;font-weight:600;
+  margin-bottom:14px;letter-spacing:.5px;border:1px solid currentColor;
+}
+.q-badge.bomb-badge{
+  border-color:var(--bomb);color:var(--bomb);
+  background:rgba(255,107,53,.12);
+  animation:bombPulse 1s ease infinite;
+}
+@keyframes bombPulse{0%,100%{box-shadow:0 0 0 0 rgba(255,107,53,.3);}50%{box-shadow:0 0 0 8px rgba(255,107,53,0);}}
+
+.q-card{
+  background:linear-gradient(135deg,var(--dark2),var(--dark3));
+  border:1px solid rgba(212,175,55,.18);border-radius:18px;
+  padding:28px;margin-bottom:16px;
+  box-shadow:0 16px 50px rgba(0,0,0,.35);position:relative;overflow:hidden;
+}
+.q-card.bomb-card{border-color:rgba(255,107,53,.35);box-shadow:0 0 30px rgba(255,107,53,.12);}
+.q-card::before{content:'';position:absolute;top:0;right:0;width:160px;height:160px;background:radial-gradient(circle,rgba(212,175,55,.05) 0%,transparent 70%);pointer-events:none;}
+.q-card.bomb-card::before{background:radial-gradient(circle,rgba(255,107,53,.08) 0%,transparent 70%);}
+.q-text{font-size:clamp(1rem,3vw,1.3rem);font-weight:600;line-height:1.65;color:var(--text);}
+
+/* BOMB LABEL */
+.bomb-label{
+  background:linear-gradient(135deg,rgba(255,107,53,.15),rgba(255,107,53,.05));
+  border:1px solid rgba(255,107,53,.3);border-radius:10px;
+  padding:10px 16px;margin-bottom:12px;
+  font-size:.82rem;color:var(--bomb);text-align:center;
+  display:flex;align-items:center;justify-content:center;gap:8px;
+}
+
+/* ANSWERS */
+.ans-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:16px;}
+.ans-btn{
+  padding:18px 14px;background:var(--dark2);
+  border:2px solid rgba(255,255,255,.07);border-radius:12px;
+  color:var(--text);font-family:inherit;font-size:.9rem;font-weight:500;
+  cursor:pointer;transition:all .22s;text-align:right;line-height:1.45;
+  position:relative;overflow:hidden;
+}
+.ans-btn::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,transparent,rgba(255,255,255,.02));}
+.ans-btn:hover:not(:disabled){transform:translateY(-2px);box-shadow:0 5px 18px rgba(212,175,55,.12);}
+.ans-btn.correct{background:rgba(39,174,96,.14);border-color:var(--green);color:var(--green);animation:correctPop .45s ease;}
+.ans-btn.wrong{background:rgba(231,76,60,.1);border-color:var(--red);color:#ff8080;animation:shk .35s ease;}
+.ans-btn:disabled{cursor:not-allowed;}
+@keyframes correctPop{0%{transform:scale(1);}50%{transform:scale(1.04);}100%{transform:scale(1);}}
+@keyframes shk{0%,100%{transform:translateX(0);}25%{transform:translateX(-5px);}75%{transform:translateX(5px);}}
+
+.fb-banner{
+  padding:14px 20px;border-radius:12px;font-size:.95rem;font-weight:600;
+  text-align:center;margin-bottom:12px;display:none;animation:slideUp .3s ease;
+}
+.fb-banner.show{display:block;}
+.fb-ok{background:rgba(39,174,96,.12);border:1px solid rgba(39,174,96,.35);color:var(--green);}
+.fb-no{background:rgba(231,76,60,.09);border:1px solid rgba(231,76,60,.28);color:#ff8080;}
+@keyframes slideUp{from{opacity:0;transform:translateY(8px);}to{opacity:1;transform:translateY(0);}}
+
+/* ELIM BANNER */
+.elim-banner{
+  background:rgba(231,76,60,.12);border:1px solid rgba(231,76,60,.3);
+  border-radius:12px;padding:14px 18px;font-size:.9rem;color:#ff8080;
+  text-align:center;margin-bottom:12px;display:none;
+}
+.elim-banner.show{display:block;}
+
+/* RESULTS */
+.res-header{text-align:center;padding:30px 10px 16px;}
+.trophy{font-size:4rem;display:block;margin-bottom:12px;animation:bounce 1s ease infinite;}
+@keyframes bounce{0%,100%{transform:translateY(0);}50%{transform:translateY(-10px);}}
+.winner-nm{font-size:1.8rem;font-weight:900;background:linear-gradient(135deg,var(--gold-l),var(--gold));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
+.final-list{display:flex;flex-direction:column;gap:10px;margin:20px 0;}
+.final-row{
+  display:flex;align-items:center;gap:14px;
+  background:var(--dark2);border:1px solid rgba(255,255,255,.05);
+  border-radius:12px;padding:16px 18px;
+}
+.final-row:first-child{border-color:var(--gold);background:rgba(212,175,55,.05);box-shadow:0 0 24px rgba(212,175,55,.1);}
+.rank-b{width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:900;font-size:1rem;flex-shrink:0;}
+.final-nm{flex:1;font-weight:600;}
+.final-pts{font-size:1.3rem;font-weight:900;}
+.btn-restart{
+  width:100%;padding:16px;
+  background:linear-gradient(135deg,var(--gold),var(--gold-d));
+  border:none;border-radius:12px;color:var(--dark);
+  font-family:inherit;font-size:1rem;font-weight:700;cursor:pointer;
+  transition:all .3s;margin-top:8px;
+}
+.btn-restart:hover{transform:translateY(-2px);box-shadow:0 8px 28px rgba(212,175,55,.32);}
+
+/* FLOAT POINTS */
+.pts-pop{
+  position:fixed;pointer-events:none;
+  font-size:1.4rem;font-weight:900;color:var(--gold-l);
+  text-shadow:0 2px 10px rgba(0,0,0,.8);z-index:9999;
+  animation:floatUp 1.2s ease forwards;
+}
+.pts-pop.bomb-pts{color:var(--bomb);}
+@keyframes floatUp{0%{opacity:1;transform:translateY(0) scale(1);}100%{opacity:0;transform:translateY(-80px) scale(1.3);}}
+
+/* ELIM FLASH */
+.elim-flash{
+  position:fixed;inset:0;background:rgba(231,76,60,.18);
+  pointer-events:none;z-index:9998;
+  animation:flashOut .6s ease forwards;
+}
+@keyframes flashOut{0%{opacity:1;}100%{opacity:0;}}
+
+@media(max-width:580px){
+  .ans-grid{grid-template-columns:1fr;}
+  .card{padding:18px;}
+  .q-card{padding:18px;}
+  .sc-card{min-width:80px;padding:9px 6px;}
+}
 </style>
 </head>
 <body>
+<div class="wrap">
 
-<div class="container">
-
-  <!-- SETUP SCREEN -->
-  <div class="screen active" id="screen-setup">
-    <div class="game-header">
-      <h1 class="game-title">🌍 کوردستان تا جیهان</h1>
-      <div class="title-decoration">
-        <span class="title-star">✦</span>
-        <span class="title-star">✦</span>
-        <span class="title-star">✦</span>
-      </div>
-      <p class="game-subtitle">یاری زانستی جوگرافیا</p>
-    </div>
-
-    <div class="setup-card">
-      <div class="setup-title">🎮 ژمارەی یارمەتیدەران</div>
-      <div class="player-count-grid">
-        <button class="count-btn" data-count="2" onclick="selectCount(2)">2<span>کەس</span></button>
-        <button class="count-btn" data-count="3" onclick="selectCount(3)">3<span>کەس</span></button>
-        <button class="count-btn selected" data-count="4" onclick="selectCount(4)">4<span>کەس</span></button>
-        <button class="count-btn" data-count="5" onclick="selectCount(5)">5<span>کەس</span></button>
-      </div>
-
-      <div class="setup-title">👥 ناوی یارمەتیدەران</div>
-      <div class="players-grid" id="players-grid"></div>
-
-      <div class="setup-title">📚 جۆری پرسیار</div>
-      <div class="category-grid">
-        <button class="cat-btn selected" data-cat="all" onclick="selectCat(this,'all')">
-          <span class="cat-icon">🌐</span>هەمووی
-        </button>
-        <button class="cat-btn" data-cat="kurdistan" onclick="selectCat(this,'kurdistan')">
-          <span class="cat-icon">🏔️</span>کوردستان
-        </button>
-        <button class="cat-btn" data-cat="world" onclick="selectCat(this,'world')">
-          <span class="cat-icon">🌍</span>جیهان
-        </button>
-        <button class="cat-btn" data-cat="history" onclick="selectCat(this,'history')">
-          <span class="cat-icon">📜</span>مێژوو
-        </button>
-      </div>
-
-      <div class="setup-title">❓ ژمارەی پرسیار</div>
-      <div class="q-count-row">
-        <span class="q-count-label">هەر کەسێک:</span>
-        <div class="q-btns">
-          <button class="q-btn" onclick="selectQCount(5,this)">5</button>
-          <button class="q-btn selected" onclick="selectQCount(10,this)">10</button>
-          <button class="q-btn" onclick="selectQCount(15,this)">15</button>
-        </div>
-      </div>
-
-      <button class="btn-start" onclick="startGame()">🚀 دەستپێکردنی یاری</button>
-    </div>
+<!-- ====== SETUP ====== -->
+<div class="screen active" id="sc-setup">
+  <div class="logo">
+    <h1>🌍 کوردستان تا جیهان</h1>
+    <div class="divider"><span>✦</span><span>✦</span><span>✦</span></div>
+    <p>یاری زانستی — چوار تا پێنج کەس</p>
   </div>
 
-  <!-- GAME SCREEN -->
-  <div class="screen" id="screen-game">
-    <div class="scoreboard" id="scoreboard"></div>
-
-    <div class="progress-info">
-      <span id="q-counter">پرسیار ١ / ١٠</span>
-      <span id="round-info">ئاست: کوردستان</span>
-    </div>
-    <div class="progress-wrap">
-      <div class="progress-bar" id="progress-bar" style="width:0%"></div>
+  <div class="card">
+    <div class="section-label">🎮 ژمارەی یارمەتیدەران</div>
+    <div class="cnt-row">
+      <button class="cnt-btn" data-n="2" onclick="setCount(2)">2<span>کەس</span></button>
+      <button class="cnt-btn" data-n="3" onclick="setCount(3)">3<span>کەس</span></button>
+      <button class="cnt-btn sel" data-n="4" onclick="setCount(4)">4<span>کەس</span></button>
+      <button class="cnt-btn" data-n="5" onclick="setCount(5)">5<span>کەس</span></button>
     </div>
 
-    <div class="turn-indicator" id="turn-indicator">
-      <span id="turn-label">نۆبەتی</span> <span class="turn-name" id="turn-name-display"></span>
+    <div class="section-label">👥 ناوی یارمەتیدەران</div>
+    <div class="players-grid" id="pg"></div>
+
+    <div class="section-label">📚 بابەتی پرسیار</div>
+    <div class="cat-grid">
+      <button class="cat-btn sel" data-c="all" onclick="setCat(this,'all')"><span class="ci">🌐</span>هەمووی</button>
+      <button class="cat-btn" data-c="kurdistan" onclick="setCat(this,'kurdistan')"><span class="ci">🏔️</span>کوردستان</button>
+      <button class="cat-btn" data-c="world" onclick="setCat(this,'world')"><span class="ci">🌍</span>جیهان</button>
+      <button class="cat-btn" data-c="history" onclick="setCat(this,'history')"><span class="ci">📜</span>مێژوو</button>
+      <button class="cat-btn" data-c="sport" onclick="setCat(this,'sport')"><span class="ci">⚽</span>وەرزش</button>
+      <button class="cat-btn" data-c="nature" onclick="setCat(this,'nature')"><span class="ci">🦁</span>سروشت</button>
+      <button class="cat-btn" data-c="science" onclick="setCat(this,'science')"><span class="ci">🔬</span>زانست</button>
     </div>
 
-    <div class="timer-wrap">
-      <div class="timer-ring">
-        <svg width="70" height="70" viewBox="0 0 70 70">
-          <circle class="bg" cx="35" cy="35" r="30" />
-          <circle class="fg" id="timer-circle" cx="35" cy="35" r="30"
-            stroke-dasharray="188.5" stroke-dashoffset="0"/>
-        </svg>
-        <div class="timer-number" id="timer-num">20</div>
+    <div class="section-label">❓ پرسیار بۆ هەر کەس</div>
+    <div class="opt-row">
+      <div class="opt-btns">
+        <button class="opt-btn" onclick="setQpp(5,this)">5</button>
+        <button class="opt-btn sel" onclick="setQpp(10,this)">10</button>
+        <button class="opt-btn" onclick="setQpp(15,this)">15</button>
+        <button class="opt-btn" onclick="setQpp(20,this)">20</button>
       </div>
     </div>
 
-    <div class="question-card">
-      <div class="question-category-badge" id="q-badge">🏔️ کوردستان</div>
-      <p class="question-text" id="question-text">پرسیار لێرەدایە...</p>
+    <!-- RULES -->
+    <div class="rules-box">
+      <h3>📋 یاساکانی یاری</h3>
+      <div class="rule-item"><span class="rule-icon">❤️</span><span>هەر کەسێک <b>٣ دەنگ</b> هەیەتی — ئەگەر ٣ جار هەڵە بکات <b>دەردەچێت</b></span></div>
+      <div class="rule-item"><span class="rule-icon">⏰</span><span>هەر پرسیارێک <b>٢٠ چرکە</b> — ئەگەر وەڵام نەداتەوە هەڵەیەک دەکەوێت</span></div>
+      <div class="rule-item"><span class="rule-icon">💎</span><span>خاڵ بەپێی خێرایی — زووتر وەڵام بدەیت زیاتر خاڵت دەگات (١٠-٢٠ خاڵ)</span></div>
+      <div class="rule-item"><span class="rule-icon">💣</span><span>پرسیاری <b>بۆمب</b> — زۆر قورسە، بەڵام <b>٤٠ خاڵ</b> دەدات! ئیشارەت دەکرێت</span></div>
+      <div class="rule-item"><span class="rule-icon">🔥</span><span>پشتەیاری — ٣ وەڵامی دروستی پشت پشت = <b>خاڵی زیادە</b></span></div>
+      <div class="rule-item"><span class="rule-icon">🏆</span><span>ئەو کەسەی کۆی خاڵی زیاترە یان کە تەنیا ماوەتەوە <b>دەبێتە بەرپرس</b></span></div>
     </div>
 
-    <div class="answers-grid" id="answers-grid"></div>
-
-    <div class="feedback-banner" id="feedback-banner"></div>
+    <button class="btn-start" onclick="startGame()">🚀 دەستپێکردنی یاری</button>
   </div>
-
-  <!-- RESULTS SCREEN -->
-  <div class="screen" id="screen-results">
-    <div class="results-header">
-      <span class="trophy-emoji">🏆</span>
-      <div class="winner-name" id="winner-name">—</div>
-      <div class="winner-sub">بەرپرسی یارییەکە!</div>
-    </div>
-    <div class="final-scores" id="final-scores"></div>
-    <button class="btn-restart" onclick="goSetup()">🔄 دووبارە یاری بکە</button>
-  </div>
-
 </div>
 
+<!-- ====== GAME ====== -->
+<div class="screen" id="sc-game">
+  <div class="scoreboard" id="scoreboard"></div>
+  <div class="elim-banner" id="elim-banner"></div>
+  <div class="prog-info"><span id="q-counter">١/١</span><span id="round-lbl"></span></div>
+  <div class="prog-wrap"><div class="prog-bar" id="prog-bar" style="width:0%"></div></div>
+  <div class="turn-ind" id="turn-ind">نۆبەتی <span class="turn-name" id="turn-nm"></span></div>
+  <div class="timer-wrap">
+    <div class="timer-ring">
+      <svg width="64" height="64" viewBox="0 0 64 64">
+        <circle class="t-bg" cx="32" cy="32" r="27"/>
+        <circle class="t-fg" id="t-circ" cx="32" cy="32" r="27" stroke-dasharray="169.6" stroke-dashoffset="0"/>
+      </svg>
+      <div class="t-num" id="t-num">20</div>
+    </div>
+  </div>
+  <div class="q-card" id="q-card">
+    <div class="q-badge" id="q-badge"></div>
+    <div class="bomb-label" id="bomb-label" style="display:none">💣 پرسیاری بۆمب — قورسترینە بەڵام ٤٠ خاڵ!</div>
+    <p class="q-text" id="q-text"></p>
+  </div>
+  <div class="ans-grid" id="ans-grid"></div>
+  <div class="fb-banner" id="fb-banner"></div>
+</div>
+
+<!-- ====== RESULTS ====== -->
+<div class="screen" id="sc-results">
+  <div class="res-header">
+    <span class="trophy">🏆</span>
+    <div class="winner-nm" id="winner-nm"></div>
+    <div style="color:var(--muted);margin-top:6px;">بەرپرسی یارییەکە!</div>
+  </div>
+  <div class="final-list" id="final-list"></div>
+  <button class="btn-restart" onclick="goSetup()">🔄 دووبارە یاری بکە</button>
+</div>
+
+</div><!-- /wrap -->
+
 <script>
-// ============================================================
-//  DATA
-// ============================================================
-const COLORS = ['--player1','--player2','--player3','--player4','--player5'];
-const COLOR_HEX = ['#E74C3C','#3498DB','#2ECC71','#F39C12','#9B59B6'];
-const RANK_EMOJI = ['🥇','🥈','🥉','4️⃣','5️⃣'];
+// ─────────────────────────────────────────────
+//  QUESTION BANK
+// ─────────────────────────────────────────────
+const PCOLORS=['#E74C3C','#3498DB','#2ECC71','#F39C12','#9B59B6'];
+const RANKS=['🥇','🥈','🥉','4️⃣','5️⃣'];
 
-const ALL_QUESTIONS = [
-  // KURDISTAN
-  { cat:'kurdistan', level:'کوردستان', icon:'🏔️', color:'#E8A735',
-    q:'پایتەختی هەرێمی کوردستانی عێراق کامە?',
-    a:['هەولێر','سلێمانی','دهۆک','کەرکووک'], correct:0 },
-  { cat:'kurdistan', level:'کوردستان', icon:'🏔️', color:'#E8A735',
-    q:'چیای هەڵگورد چەند مەتری بەرزییەکیەتی?',
-    a:['٣,٦٠٠ م','٣,٩٠٠ م','٤,١٦٨ م','٤,٥٠٠ م'], correct:2 },
-  { cat:'kurdistan', level:'کوردستان', icon:'🏔️', color:'#E8A735',
-    q:'دریاچەی دوکان لە کام پارێزگایەکدایە?',
-    a:['هەولێر','سلێمانی','دهۆک','کەرکووک'], correct:1 },
-  { cat:'kurdistan', level:'کوردستان', icon:'🏔️', color:'#E8A735',
-    q:'کام شارە بە "شاری گوڵ" ناسراوە?',
-    a:['هەولێر','زاخۆ','سلێمانی','عەقرە'], correct:2 },
-  { cat:'kurdistan', level:'کوردستان', icon:'🏔️', color:'#E8A735',
-    q:'ئاوڕووباری شاخی عەلان لە کام پارێزگاییەدایە?',
-    a:['هەولێر','سلێمانی','دهۆک','زاخۆ'], correct:0 },
-  { cat:'kurdistan', level:'کوردستان', icon:'🏔️', color:'#E8A735',
-    q:'ئەمباری ئاوی دوکان لەسەر کام رووباریەکدا دروست کراوە?',
-    a:['دیالە','زاب','تیگریس','فرات'], correct:1 },
-  { cat:'kurdistan', level:'کوردستان', icon:'🏔️', color:'#E8A735',
-    q:'کام شار بە "پایتەختی کولتووری کوردستان" ناسراوە?',
-    a:['هەولێر','دهۆک','سلێمانی','رانیە'], correct:2 },
-  { cat:'kurdistan', level:'کوردستان', icon:'🏔️', color:'#E8A735',
-    q:'گۆپالی کوردی بە کام زمانێکی دیکە "داربوکا" دەڵێن?',
-    a:['عەرەبی','فارسی','تورکی','ئینگلیزی'], correct:0 },
-  { cat:'kurdistan', level:'کوردستان', icon:'🏔️', color:'#E8A735',
-    q:'ناوچەی بەرزەی شێلادزە لە کام شووێنێکدایە?',
-    a:['دهۆک','زاخۆ','بەهدینان','هەولێر'], correct:0 },
-  { cat:'kurdistan', level:'کوردستان', icon:'🏔️', color:'#E8A735',
-    q:'قەڵای هەولێر چەند ساڵی کۆنییەتی?',
-    a:['٢٠٠٠ ساڵ','٤٠٠٠ ساڵ','٦٠٠٠ ساڵ','٨٠٠٠ ساڵ'], correct:2 },
+const QDB=[
+  // ═══ KURDISTAN ═══
+  {cat:'kurdistan',lv:'🏔️ کوردستان',col:'#E8A735',bomb:false,
+   q:'پایتەختی هەرێمی کوردستانی عێراق کامە?',
+   a:['هەولێر','سلێمانی','دهۆک','کەرکووک'],c:0},
+  {cat:'kurdistan',lv:'🏔️ کوردستان',col:'#E8A735',bomb:false,
+   q:'بەرزترین چیای کوردستان کامە?',
+   a:['کەلە دێزەی','هەڵگورد','چیای شیرین','بەرانان'],c:1},
+  {cat:'kurdistan',lv:'🏔️ کوردستان',col:'#E8A735',bomb:false,
+   q:'دریاچەی دوکان لە کام پارێزگایەکدایە?',
+   a:['هەولێر','سلێمانی','دهۆک','کەرکووک'],c:1},
+  {cat:'kurdistan',lv:'🏔️ کوردستان',col:'#E8A735',bomb:false,
+   q:'قەڵای هەولێر بەنزیکەی چەند ساڵی کۆنییەتی?',
+   a:['٢٠٠٠ ساڵ','٤٠٠٠ ساڵ','٦٠٠٠ ساڵ','٨٠٠٠ ساڵ'],c:2},
+  {cat:'kurdistan',lv:'🏔️ کوردستان',col:'#E8A735',bomb:false,
+   q:'کام شار بە "شاری گوڵ" ناسراوە?',
+   a:['هەولێر','زاخۆ','سلێمانی','عەقرە'],c:2},
+  {cat:'kurdistan',lv:'🏔️ کوردستان',col:'#E8A735',bomb:false,
+   q:'ئەمباری ئاوی دوکان لەسەر کام رووباریەکدا بنیات نراوە?',
+   a:['دیالە','زابی چەمی','تیگریس','فرات'],c:1},
+  {cat:'kurdistan',lv:'🏔️ کوردستان',col:'#E8A735',bomb:false,
+   q:'کام شار بە "پایتەختی کولتووری کوردستان" ناسراوە?',
+   a:['هەولێر','دهۆک','سلێمانی','رانیە'],c:2},
+  {cat:'kurdistan',lv:'🏔️ کوردستان',col:'#E8A735',bomb:false,
+   q:'کام ژمارە پارێزگا لە هەرێمی کوردستانیدایە?',
+   a:['٢','٣','٤','٥'],c:2},
+  {cat:'kurdistan',lv:'🏔️ کوردستان',col:'#E8A735',bomb:false,
+   q:'نەورۆز بە کوردی رووی چی دەدات?',
+   a:['ساڵی نوێ','رۆژی ئازادی','بەهار','هاوین'],c:0},
+  {cat:'kurdistan',lv:'🏔️ کوردستان',col:'#E8A735',bomb:false,
+   q:'کام رووباری گەورەی کوردستانە کە دەچێتە ئیران?',
+   a:['دیالە','زاب','سیروان','کارون'],c:2},
+  // BOMB Kurdistan
+  {cat:'kurdistan',lv:'🏔️ کوردستان',col:'#FF6B35',bomb:true,
+   q:'💣 چەند کیلۆمەتری لە سنوری هەرێمی کوردستانە?',
+   a:['١٠,٠٠٠ کم','١٥,٣٠٠ کم','٢٠,٥٠٠ کم','٣٢,٠٠٠ کم'],c:1},
 
-  // WORLD
-  { cat:'world', level:'جیهان', icon:'🌍', color:'#3498DB',
-    q:'پایتەختی ژاپۆن کامە?',
-    a:['ئۆزاکا','ئۆکیۆ','کیۆتۆ','هیرۆشیما'], correct:1 },
-  { cat:'world', level:'جیهان', icon:'🌍', color:'#3498DB',
-    q:'درێژترین ڕووباری جیهان کامە?',
-    a:['ئەمازۆن','نیل','یانگتزی','میسیسیپی'], correct:1 },
-  { cat:'world', level:'جیهان', icon:'🌍', color:'#3498DB',
-    q:'گەورەترین پارێزگاری جیهان لە ئاستا کامە?',
-    a:['کانەدا','ڕووسیا','ئۆسترالیا','بەرازیل'], correct:1 },
-  { cat:'world', level:'جیهان', icon:'🌍', color:'#3498DB',
-    q:'بەرزترین چیای جیهان کامە?',
-    a:['K2','ئەنایاپورنا','ئێڤەرێست','کانچێنجوونگا'], correct:2 },
-  { cat:'world', level:'جیهان', icon:'🌍', color:'#3498DB',
-    q:'پایتەختی کانەدا کامە?',
-    a:['تۆرۆنتۆ','مۆنتریال','ئۆتاوا','ڤانکووڤەر'], correct:2 },
-  { cat:'world', level:'جیهان', icon:'🌍', color:'#3498DB',
-    q:'کام وڵات زۆرترین دانیشتووانی جیهانی هەیە؟',
-    a:['ئیندیا','چین','ئەمریکا','ئیندۆنیزیا'], correct:1 },
-  { cat:'world', level:'جیهان', icon:'🌍', color:'#3498DB',
-    q:'پایتەختی بەرازیل کامە?',
-    a:['ریۆ دی جانیرۆ','سائۆ پاولۆ','براسیلیا','مانائۆس'], correct:2 },
-  { cat:'world', level:'جیهان', icon:'🌍', color:'#3498DB',
-    q:'کام وڵات بە "خاکی گەرمخۆش" ناسراوە?',
-    a:['مەکسیک','ئیسپانیا','کۆلۆمبیا','ئارجەنتینا'], correct:0 },
-  { cat:'world', level:'جیهان', icon:'🌍', color:'#3498DB',
-    q:'پایتەختی ئۆسترالیا کامە?',
-    a:['سیدنی','مێڵبورن','کانبێرا','پێرت'], correct:2 },
-  { cat:'world', level:'جیهان', icon:'🌍', color:'#3498DB',
-    q:'کام وڵات بچووکترین وڵاتی جیهانە?',
-    a:['مۆناکۆ','لیختنستاین','ڤاتیکان','سان مارینۆ'], correct:2 },
+  // ═══ WORLD ═══
+  {cat:'world',lv:'🌍 جیهان',col:'#3498DB',bomb:false,
+   q:'پایتەختی ژاپۆن کامە?',
+   a:['ئۆزاکا','ئۆکیۆ','کیۆتۆ','هیرۆشیما'],c:1},
+  {cat:'world',lv:'🌍 جیهان',col:'#3498DB',bomb:false,
+   q:'درێژترین ڕووباری جیهان کامە?',
+   a:['ئەمازۆن','نیل','یانگتزی','میسیسیپی'],c:1},
+  {cat:'world',lv:'🌍 جیهان',col:'#3498DB',bomb:false,
+   q:'بەرزترین چیای جیهان کامە?',
+   a:['K2','ئەنایاپورنا','ئێڤەرێست','کانچێنجوونگا'],c:2},
+  {cat:'world',lv:'🌍 جیهان',col:'#3498DB',bomb:false,
+   q:'پایتەختی کانەدا کامە?',
+   a:['تۆرۆنتۆ','مۆنتریال','ئۆتاوا','ڤانکووڤەر'],c:2},
+  {cat:'world',lv:'🌍 جیهان',col:'#3498DB',bomb:false,
+   q:'پایتەختی ئۆسترالیا کامە?',
+   a:['سیدنی','مێڵبورن','کانبێرا','پێرت'],c:2},
+  {cat:'world',lv:'🌍 جیهان',col:'#3498DB',bomb:false,
+   q:'کام وڵاتی بچووکترینی جیهانە?',
+   a:['مۆناکۆ','لیختنستاین','ڤاتیکان','سان مارینۆ'],c:2},
+  {cat:'world',lv:'🌍 جیهان',col:'#3498DB',bomb:false,
+   q:'پایتەختی بەرازیل کامە?',
+   a:['ریۆ دی جانیرۆ','سائۆ پاولۆ','براسیلیا','مانائۆس'],c:2},
+  {cat:'world',lv:'🌍 جیهان',col:'#3498DB',bomb:false,
+   q:'گەورەترین ئۆقیانووسی جیهان کامە?',
+   a:['ئەتلەنتیک','ئارکتیک','پاسیفیک','هیندی'],c:2},
+  {cat:'world',lv:'🌍 جیهان',col:'#3498DB',bomb:false,
+   q:'کام وڵات زیاتریش گازی کاربۆن دەبڵاوێت؟',
+   a:['ئەمریکا','چین','ئیندیا','ڕووسیا'],c:1},
+  {cat:'world',lv:'🌍 جیهان',col:'#3498DB',bomb:false,
+   q:'کام وڵاتی داهاتووی ناوخۆیی نیشتیمانیەکەی زیاترە?',
+   a:['ئەمریکا','چین','ژاپۆن','ئەڵمانیا'],c:0},
+  // BOMB World
+  {cat:'world',lv:'🌍 جیهان',col:'#FF6B35',bomb:true,
+   q:'💣 ژمارەی وڵاتانی ئەندامی نەتەوە یەکگرتووەکان چەندە?',
+   a:['١٦٣','١٧٨','١٩٣','٢١٢'],c:2},
 
-  // HISTORY
-  { cat:'history', level:'مێژوو', icon:'📜', color:'#9B59B6',
-    q:'شەڕی دووەمی جیهانی کەی کۆتایی هات?',
-    a:['١٩٤٣','١٩٤٤','١٩٤٥','١٩٤٦'], correct:2 },
-  { cat:'history', level:'مێژوو', icon:'📜', color:'#9B59B6',
-    q:'کام شارێکی کوردنشین بوو کە مێژووی ٦ هەزار ساڵیەتی?',
-    a:['هەولێر','مۆسڵ','کەرکووک','زاخۆ'], correct:0 },
-  { cat:'history', level:'مێژوو', icon:'📜', color:'#9B59B6',
-    q:'مێژووی ئایارەکانی کوردستان (١٩٩١) چی بوو?',
-    a:['داهاتنی دیموکراسی','راپەڕین','دامەزراندنی پارتەکان','بەرپرسی ئابووری'], correct:1 },
-  { cat:'history', level:'مێژوو', icon:'📜', color:'#9B59B6',
-    q:'شارستانیی سومەری لە کام سەردەمێکدا هاتە ئاراوە?',
-    a:['٥٠٠٠ ک','٤٠٠٠ ک','٣٠٠٠ ک','٢٠٠٠ ک'], correct:1 },
-  { cat:'history', level:'مێژوو', icon:'📜', color:'#9B59B6',
-    q:'دیوارەکانی بابیل کە بە ماڵی جیهانن لە کام وڵاتیەکدان?',
-    a:['سووریا','عێراق','ئێران','تورکیا'], correct:1 },
+  // ═══ HISTORY ═══
+  {cat:'history',lv:'📜 مێژوو',col:'#9B59B6',bomb:false,
+   q:'شەڕی دووەمی جیهانی کەی کۆتایی هات?',
+   a:['١٩٤٣','١٩٤٤','١٩٤٥','١٩٤٦'],c:2},
+  {cat:'history',lv:'📜 مێژوو',col:'#9B59B6',bomb:false,
+   q:'دیوارەکانی بابیل لە کام وڵاتیەکدان?',
+   a:['سووریا','عێراق','ئێران','تورکیا'],c:1},
+  {cat:'history',lv:'📜 مێژوو',col:'#9B59B6',bomb:false,
+   q:'کام شارستانیەتی کونترینە؟',
+   a:['سومەر','میسر','هیند','چین'],c:0},
+  {cat:'history',lv:'📜 مێژوو',col:'#9B59B6',bomb:false,
+   q:'فەرمانگەی ئایارەکانی کوردستان کەی بوو?',
+   a:['١٩٨٨','١٩٩١','١٩٩٢','١٩٩٥'],c:1},
+  {cat:'history',lv:'📜 مێژوو',col:'#9B59B6',bomb:false,
+   q:'ئۆلیمپیادی کۆن لە کام وڵاتدا دەستپێکرد?',
+   a:['ڕووما','یۆنان','میسر','فارس'],c:1},
+  // BOMB History
+  {cat:'history',lv:'📜 مێژوو',col:'#FF6B35',bomb:true,
+   q:'💣 کام ساڵ دا ئیمپراتۆریەتی عوسمانی تاڕووخا?',
+   a:['١٩١٨','١٩٢٠','١٩٢٣','١٩٢٥'],c:2},
+
+  // ═══ SPORT ═══
+  {cat:'sport',lv:'⚽ وەرزش',col:'#27AE60',bomb:false,
+   q:'ئایسلاندیا یاریدەری فوتبۆلی خێرا چەندی هەیە?',
+   a:['٢٠٠ هەزار','٣٦٠ هەزار','٤٥٠ هەزار','١ ملیۆن'],c:1},
+  {cat:'sport',lv:'⚽ وەرزش',col:'#27AE60',bomb:false,
+   q:'لیگی شامپیۆنانی ئەوروپا چەند جار کام تیمی زیاتر بردوویەتی?',
+   a:['بارسەلۆنا','لیڤەرپووڵ','ری ال مادرید','بایرن مونیخ'],c:2},
+  {cat:'sport',lv:'⚽ وەرزش',col:'#27AE60',bomb:false,
+   q:'کام وڵات ٢٠٢٢دا جامی جیهانی بردەوە?',
+   a:['فەرەنسا','بەرازیل','ئارجەنتینا','کرۆاتیا'],c:2},
+  {cat:'sport',lv:'⚽ وەرزش',col:'#27AE60',bomb:false,
+   q:'کاکا کێیە؟',
+   a:['ئارجەنتینی','بەرازیلی','پۆرتوگالی','ئیتالی'],c:1},
+  {cat:'sport',lv:'⚽ وەرزش',col:'#27AE60',bomb:false,
+   q:'کام وەرزشکارێک بوتای وەرزش یازدە جار بردوویەتی؟',
+   a:['فیدرەر','مایکل جۆردان','ئالی','تایگەر وودز'],c:3},
+  {cat:'sport',lv:'⚽ وەرزش',col:'#27AE60',bomb:false,
+   q:'ئۆلیمپیادی ٢٠٢٤ لە کام شاردا بوو?',
+   a:['لەندەن','تۆکیۆ','پاریس','لۆس ئانجەلیس'],c:2},
+  {cat:'sport',lv:'⚽ وەرزش',col:'#27AE60',bomb:false,
+   q:'کام وەرزشکار زیاتر گۆلی کردووە لە مێژووی فوتبۆلدا؟',
+   a:['پێلێ','مێسی','رۆنالدۆ','کریسیانۆ'],c:2},
+  {cat:'sport',lv:'⚽ وەرزش',col:'#27AE60',bomb:false,
+   q:'کوردستان چەند وەرزشکار لە ئۆلیمپیاد نوێنەرایەتی کردووە؟',
+   a:['هیچ','١-٥','٥-١٥','٢٠+'],c:1},
+  // BOMB Sport
+  {cat:'sport',lv:'⚽ وەرزش',col:'#FF6B35',bomb:true,
+   q:'💣 ئوسەین بۆڵت چەند چرکەدا ١٠٠ مەتر ڕاکێشا؟ (ڕیکۆردی جیهان)',
+   a:['٩.٥٨','٩.٦٣','٩.٦٩','٩.٧٢'],c:0},
+
+  // ═══ NATURE ═══
+  {cat:'nature',lv:'🦁 سروشت',col:'#E8A735',bomb:false,
+   q:'کام ئاژەڵ زیاتریش دەژی?',
+   a:['پیل','کەرگەدەن','چەتاڵ','شێر'],c:2},
+  {cat:'nature',lv:'🦁 سروشت',col:'#E8A735',bomb:false,
+   q:'کام ئاژەڵ ئەگەری بڵند تری زاری هەیەتی؟',
+   a:['بلبل','باڵەفرۆش','ئوقراسیا','داو'],c:2},
+  {cat:'nature',lv:'🦁 سروشت',col:'#E8A735',bomb:false,
+   q:'گیاگەرترین ئاژەڵ لەناو ئاوی ئۆقیانوس کامە?',
+   a:['دووڵفین','شەڤق','بەلووت گەورە','مانتارای'],c:2},
+  {cat:'nature',lv:'🦁 سروشت',col:'#E8A735',bomb:false,
+   q:'کام ئاژەڵ نەخۆشی مەلاریا دەگوازێتەوە?',
+   a:['ئەگیرۆڵ','بزر','مێشگرمک','سیفەت'],c:2},
+  {cat:'nature',lv:'🦁 سروشت',col:'#E8A735',bomb:false,
+   q:'کام دار زیاتریش ئۆکسیجین دەدات؟',
+   a:['مێشک','ئەمازۆن','کونیفەر','باوەر'],c:1},
+  {cat:'nature',lv:'🦁 سروشت',col:'#E8A735',bomb:false,
+   q:'کام بانگ رووی دەدات کاتێک خۆر دەکەوێت؟',
+   a:['کەڕویی','کچکچ','بۆمی','شاپرەکی'],c:0},
+  {cat:'nature',lv:'🦁 سروشت',col:'#E8A735',bomb:false,
+   q:'کام ئاژەڵ ئەگەری بڵند بووی زیاترە لە زوولۆجیادا؟',
+   a:['ئاژداها','زووراف','پیل','فیل'],c:1},
+  {cat:'nature',lv:'🦁 سروشت',col:'#E8A735',bomb:false,
+   q:'کام ئاژەڵ تەنها لە ئۆسترالیا دەژی؟',
+   a:['کانگارو','زووراف','پاندا','کۆبرا'],c:0},
+  {cat:'nature',lv:'🦁 سروشت',col:'#E8A735',bomb:false,
+   q:'کام رووبار زیاتریش ئاو هەیەتی؟',
+   a:['نیل','ئەمازۆن','یانگتزی','میسیسیپی'],c:1},
+  {cat:'nature',lv:'🦁 سروشت',col:'#E8A735',bomb:false,
+   q:'گەرمترین شوێنی ردوونیا کامە?',
+   a:['سەحرای عەرەبیستان','ئەتیۆپیا','ڤالی دێث','سەحرای سەحرا'],c:2},
+  // BOMB Nature
+  {cat:'nature',lv:'🦁 سروشت',col:'#FF6B35',bomb:true,
+   q:'💣 چەند جۆر کرم و ئاژەڵی بچووکی ناسراو لە ردوونیادا هەیە؟',
+   a:['١ ملیۆن','٥ ملیۆن','٨.٧ ملیۆن','١٥ ملیۆن'],c:2},
+
+  // ═══ SCIENCE ═══
+  {cat:'science',lv:'🔬 زانست',col:'#8E44AD',bomb:false,
+   q:'کام بنکەی کیمیایی ئۆکسیجینە?',
+   a:['O','H','N','C'],c:0},
+  {cat:'science',lv:'🔬 زانست',col:'#8E44AD',bomb:false,
+   q:'کام زانستدان ئاسمانەکەی ئامادە کرد؟',
+   a:['نیوتن','ئایشتاین','گەلیلیۆ','کۆپەرنیک'],c:1},
+  {cat:'science',lv:'🔬 زانست',col:'#8E44AD',bomb:false,
+   q:'کام تیشکی خۆر بۆ ردوونیا زیانبەخشترە?',
+   a:['UV-A','UV-B','UV-C','ئینفرا ڕەد'],c:1},
+  {cat:'science',lv:'🔬 زانست',col:'#8E44AD',bomb:false,
+   q:'ئایسلاندیا ئەنێژی کوم وزەیەکی بنچینەیی بەکاردێنێت؟',
+   a:['کووڵ','ئاو و جیۆتەرمی','کانی','باد'],c:1},
+  {cat:'science',lv:'🔬 زانست',col:'#8E44AD',bomb:false,
+   q:'DNA مانای چییە؟',
+   a:['دیزۆکسی ڕیبۆ نوکلییک ئاسید','دیسوون نوکلیتید ئاسید','دین نوکلییاس','دیربەند نوکلیتید'],c:0},
+  {cat:'science',lv:'🔬 زانست',col:'#8E44AD',bomb:false,
+   q:'کام ئیلتیماتۆمی مرۆڤ بووە بینایەکی مرۆڤ بوو?',
+   a:['هۆمۆ سەپیینس','هۆمۆ ئێرێکتووس','نئاندەرتال','ئاوسترالۆپیتیکووس'],c:0},
+  // BOMB Science
+  {cat:'science',lv:'🔬 زانست',col:'#FF6B35',bomb:true,
+   q:'💣 خێرایی ڕووناکی لە چرکەیەکدا چەند کیلۆمەترە؟',
+   a:['١٨٠,٠٠٠ کم','٢٩٩,٧٩٢ کم','٤٥٠,٠٠٠ کم','٦٠٠,٠٠٠ کم'],c:1},
 ];
 
-// ============================================================
+// ─────────────────────────────────────────────
 //  STATE
-// ============================================================
-let state = {
-  playerCount: 4,
-  playerNames: [],
-  scores: [],
-  streaks: [],
-  category: 'all',
-  questionsPerPlayer: 10,
-  currentPlayer: 0,
-  currentQ: 0,
-  totalQs: 0,
-  questions: [],
-  timerInterval: null,
-  timeLeft: 20,
-  answered: false,
+// ─────────────────────────────────────────────
+const S={
+  count:4, names:[], scores:[], lives:[], streaks:[], eliminated:[],
+  cat:'all', qpp:10,
+  curP:0, curQ:0, totalQ:0,
+  questions:[], timerInterval:null, timeLeft:20, answered:false,
 };
 
-// ============================================================
-//  SETUP
-// ============================================================
-function selectCount(n) {
-  state.playerCount = n;
-  document.querySelectorAll('.count-btn').forEach(b => b.classList.remove('selected'));
-  document.querySelector(`.count-btn[data-count="${n}"]`).classList.add('selected');
-  renderPlayerInputs();
+// ─────────────────────────────────────────────
+//  SETUP HELPERS
+// ─────────────────────────────────────────────
+function setCount(n){
+  S.count=n;
+  document.querySelectorAll('.cnt-btn').forEach(b=>b.classList.remove('sel'));
+  document.querySelector(`.cnt-btn[data-n="${n}"]`).classList.add('sel');
+  renderPInputs();
 }
-
-function selectCat(el, cat) {
-  state.category = cat;
-  document.querySelectorAll('.cat-btn').forEach(b => b.classList.remove('selected'));
-  el.classList.add('selected');
+function setCat(el,c){
+  S.cat=c;
+  document.querySelectorAll('.cat-btn').forEach(b=>b.classList.remove('sel'));
+  el.classList.add('sel');
 }
-
-function selectQCount(n, el) {
-  state.questionsPerPlayer = n;
-  document.querySelectorAll('.q-btn').forEach(b => b.classList.remove('selected'));
-  el.classList.add('selected');
+function setQpp(n,el){
+  S.qpp=n;
+  document.querySelectorAll('.opt-btn').forEach(b=>b.classList.remove('sel'));
+  el.classList.add('sel');
 }
-
-function renderPlayerInputs() {
-  const grid = document.getElementById('players-grid');
-  grid.innerHTML = '';
-  for (let i = 0; i < state.playerCount; i++) {
-    const wrap = document.createElement('div');
-    wrap.className = 'player-input-wrap';
-    wrap.innerHTML = `
-      <span class="player-color-dot" style="background:${COLOR_HEX[i]}"></span>
-      <input class="player-input" type="text" id="player-${i}"
-        placeholder="یارمەتیدەر ${i+1}" value="${state.playerNames[i]||''}">
-    `;
-    grid.appendChild(wrap);
+function renderPInputs(){
+  const g=document.getElementById('pg');g.innerHTML='';
+  for(let i=0;i<S.count;i++){
+    const w=document.createElement('div');w.className='p-wrap';
+    w.innerHTML=`<span class="p-dot" style="background:${PCOLORS[i]}"></span>
+      <input class="p-inp" id="pi${i}" type="text" placeholder="یارمەتیدەر ${i+1}" value="${S.names[i]||''}">`;
+    g.appendChild(w);
   }
 }
 
-function startGame() {
-  // Collect names
-  state.playerNames = [];
-  for (let i = 0; i < state.playerCount; i++) {
-    const val = document.getElementById(`player-${i}`).value.trim();
-    state.playerNames.push(val || `یارمەتیدەر ${i+1}`);
+// ─────────────────────────────────────────────
+//  START
+// ─────────────────────────────────────────────
+function startGame(){
+  S.names=[];
+  for(let i=0;i<S.count;i++){
+    const v=document.getElementById(`pi${i}`).value.trim();
+    S.names.push(v||`یارمەتیدەر ${i+1}`);
   }
-  state.scores = Array(state.playerCount).fill(0);
-  state.streaks = Array(state.playerCount).fill(0);
-  state.currentPlayer = 0;
-  state.currentQ = 0;
+  S.scores=Array(S.count).fill(0);
+  S.lives=Array(S.count).fill(3);
+  S.streaks=Array(S.count).fill(0);
+  S.eliminated=Array(S.count).fill(false);
+  S.curP=0; S.curQ=0;
 
-  // Build question pool
-  let pool = ALL_QUESTIONS.filter(q =>
-    state.category === 'all' || q.cat === state.category
-  );
-  // Shuffle
-  pool = pool.sort(() => Math.random() - 0.5);
-  state.questions = [];
-  const totalNeeded = state.questionsPerPlayer * state.playerCount;
-  while (state.questions.length < totalNeeded) {
-    state.questions.push(...pool.sort(() => Math.random() - 0.5));
+  let pool=QDB.filter(q=>S.cat==='all'||q.cat===S.cat);
+  if(pool.length<4) pool=QDB.slice();
+
+  // Separate bombs and normal
+  const bombs=pool.filter(q=>q.bomb);
+  const normals=pool.filter(q=>!q.bomb).sort(()=>Math.random()-.5);
+
+  const total=S.qpp*S.count;
+  const qs=[];
+  while(qs.length<total){
+    for(const q of normals){
+      if(qs.length<total) qs.push(q);
+    }
   }
-  state.questions = state.questions.slice(0, totalNeeded);
-  state.totalQs = state.questions.length;
+  // Insert one bomb every ~5 questions
+  const bombFreq=5;
+  let bi=0;
+  for(let i=bombFreq-1;i<qs.length && bi<bombs.length;i+=bombFreq,bi++){
+    qs[i]=bombs[bi%bombs.length];
+  }
+
+  S.questions=qs.slice(0,total);
+  S.totalQ=S.questions.length;
 
   showScreen('game');
-  renderScoreboard();
-  loadQuestion();
+  renderSB();
+  loadQ();
 }
 
-// ============================================================
+// ─────────────────────────────────────────────
 //  GAME
-// ============================================================
-function renderScoreboard() {
-  const sb = document.getElementById('scoreboard');
-  sb.innerHTML = '';
-  state.playerNames.forEach((name, i) => {
-    const card = document.createElement('div');
-    card.className = 'score-card' + (i === state.currentPlayer ? ' active-player' : '');
-    card.id = `score-card-${i}`;
-    card.innerHTML = `
-      <div class="score-points" style="color:${COLOR_HEX[i]}">${state.scores[i]}</div>
-      <div class="score-name">${name}</div>
-      <div class="score-streak">${state.streaks[i] > 1 ? '🔥 '+state.streaks[i]+' پشتەیاری' : '&nbsp;'}</div>
-    `;
-    sb.appendChild(card);
+// ─────────────────────────────────────────────
+function activePlayers(){return S.names.map((_,i)=>i).filter(i=>!S.eliminated[i]);}
+
+function renderSB(){
+  const sb=document.getElementById('scoreboard');sb.innerHTML='';
+  S.names.forEach((nm,i)=>{
+    const c=document.createElement('div');
+    c.className='sc-card'+(i===S.curP&&!S.eliminated[i]?' active':'')+(S.eliminated[i]?' elim':'');
+    c.id=`sc${i}`;
+    const hearts='❤️'.repeat(S.lives[i])+'🖤'.repeat(3-S.lives[i]);
+    c.innerHTML=`
+      <div class="sc-pts" style="color:${PCOLORS[i]}">${S.scores[i]}</div>
+      <div class="sc-name">${nm}</div>
+      <div class="sc-lives">${hearts}</div>`;
+    sb.appendChild(c);
   });
 }
 
-function loadQuestion() {
-  if (state.currentQ >= state.totalQs) {
-    endGame(); return;
+function loadQ(){
+  // Skip eliminated players
+  const alive=activePlayers();
+  if(alive.length<=1){endGame();return;}
+  while(S.eliminated[S.curP]){
+    S.curP=(S.curP+1)%S.count;
   }
-  const q = state.questions[state.currentQ];
-  const pName = state.playerNames[state.currentPlayer];
+  if(S.curQ>=S.totalQ){endGame();return;}
 
-  // Turn indicator
-  document.getElementById('turn-name-display').textContent = pName;
-  document.getElementById('turn-name-display').style.color = COLOR_HEX[state.currentPlayer];
+  const q=S.questions[S.curQ];
+  const nm=S.names[S.curP];
+
+  // Turn
+  const tNm=document.getElementById('turn-nm');
+  tNm.textContent=nm;tNm.style.color=PCOLORS[S.curP];
 
   // Progress
-  const pct = (state.currentQ / state.totalQs) * 100;
-  document.getElementById('progress-bar').style.width = pct + '%';
-  document.getElementById('q-counter').textContent =
-    `پرسیار ${toKurdishNum(state.currentQ+1)} / ${toKurdishNum(state.totalQs)}`;
-  document.getElementById('round-info').textContent = `ئاست: ${q.level}`;
+  const pct=(S.curQ/S.totalQ)*100;
+  document.getElementById('prog-bar').style.width=pct+'%';
+  document.getElementById('q-counter').textContent=`${toK(S.curQ+1)} / ${toK(S.totalQ)}`;
+  document.getElementById('round-lbl').textContent=q.lv;
 
   // Badge
-  const badge = document.getElementById('q-badge');
-  badge.textContent = `${q.icon} ${q.level}`;
-  badge.style.color = q.color;
-  badge.style.borderColor = q.color;
-  badge.style.background = hexToRgba(q.color, 0.1);
+  const badge=document.getElementById('q-badge');
+  badge.textContent=q.lv;
+  badge.className='q-badge'+(q.bomb?' bomb-badge':'');
+  badge.style.color=q.bomb?'var(--bomb)':q.col;
+  badge.style.borderColor=q.bomb?'var(--bomb)':q.col;
+  badge.style.background=q.bomb?'rgba(255,107,53,.1)':hexA(q.col,.08);
 
-  // Question
-  document.getElementById('question-text').textContent = q.q;
+  // Bomb
+  const bl=document.getElementById('bomb-label');
+  bl.style.display=q.bomb?'flex':'none';
+
+  // Card
+  const qc=document.getElementById('q-card');
+  qc.className='q-card'+(q.bomb?' bomb-card':'');
+
+  document.getElementById('q-text').textContent=q.q;
 
   // Answers
-  const grid = document.getElementById('answers-grid');
-  grid.innerHTML = '';
-  const labels = ['أ','ب','ج','د'];
-  q.a.forEach((ans, i) => {
-    const btn = document.createElement('button');
-    btn.className = 'answer-btn';
-    btn.innerHTML = `<span style="color:${COLOR_HEX[state.currentPlayer]};margin-left:8px;font-weight:700">${labels[i]}</span> ${ans}`;
-    btn.onclick = () => selectAnswer(i, btn, q);
-    grid.appendChild(btn);
+  const ag=document.getElementById('ans-grid');ag.innerHTML='';
+  const labs=['أ','ب','ج','د'];
+  q.a.forEach((ans,i)=>{
+    const btn=document.createElement('button');
+    btn.className='ans-btn';
+    const col=q.bomb?'var(--bomb)':PCOLORS[S.curP];
+    btn.innerHTML=`<span style="color:${col};margin-left:8px;font-weight:700">${labs[i]}</span>${ans}`;
+    btn.onclick=()=>pick(i,btn,q);
+    ag.appendChild(btn);
   });
 
   // Feedback
-  const fb = document.getElementById('feedback-banner');
-  fb.className = 'feedback-banner';
-  fb.textContent = '';
+  const fb=document.getElementById('fb-banner');
+  fb.className='fb-banner';fb.textContent='';
 
-  state.answered = false;
+  // Elim banner
+  document.getElementById('elim-banner').className='elim-banner';
+
+  S.answered=false;
   startTimer(q);
 }
 
-function startTimer(q) {
-  clearInterval(state.timerInterval);
-  state.timeLeft = 20;
-  updateTimerUI(20, 20);
-
-  state.timerInterval = setInterval(() => {
-    state.timeLeft--;
-    updateTimerUI(state.timeLeft, 20);
-    if (state.timeLeft <= 0) {
-      clearInterval(state.timerInterval);
-      if (!state.answered) timeUp(q);
+function startTimer(q){
+  clearInterval(S.timerInterval);
+  S.timeLeft=20;
+  updateTimer(20,20);
+  S.timerInterval=setInterval(()=>{
+    S.timeLeft--;
+    updateTimer(S.timeLeft,20);
+    if(S.timeLeft<=0){
+      clearInterval(S.timerInterval);
+      if(!S.answered) timeUp(q);
     }
-  }, 1000);
+  },1000);
 }
 
-function updateTimerUI(t, max) {
-  document.getElementById('timer-num').textContent = t;
-  const circ = document.getElementById('timer-circle');
-  const r = 30;
-  const circumference = 2 * Math.PI * r;
-  const offset = circumference * (1 - t / max);
-  circ.style.strokeDashoffset = offset;
-  circ.style.stroke = t <= 5 ? '#E74C3C' : t <= 10 ? '#F39C12' : 'var(--gold)';
-  document.getElementById('timer-num').style.color = t <= 5 ? '#E74C3C' : 'var(--gold)';
+function updateTimer(t,max){
+  document.getElementById('t-num').textContent=t;
+  const circ=document.getElementById('t-circ');
+  const C=2*Math.PI*27;
+  circ.style.strokeDashoffset=C*(1-t/max);
+  const clr=t<=5?'var(--red)':t<=10?'#F39C12':'var(--gold)';
+  circ.style.stroke=clr;
+  document.getElementById('t-num').style.color=clr;
 }
 
-function timeUp(q) {
-  state.answered = true;
-  state.streaks[state.currentPlayer] = 0;
-  disableAnswers();
-  showCorrect(q.correct);
-  showFeedback(false, `⏰ کاتەکەت تەواو بوو! وەڵامی دروست: ${q.a[q.correct]}`);
-  setTimeout(nextTurn, 2000);
-}
-
-function selectAnswer(idx, btn, q) {
-  if (state.answered) return;
-  state.answered = true;
-  clearInterval(state.timerInterval);
-  disableAnswers();
-
-  if (idx === q.correct) {
-    const bonus = state.timeLeft > 10 ? 20 : state.timeLeft > 5 ? 15 : 10;
-    state.scores[state.currentPlayer] += bonus;
-    state.streaks[state.currentPlayer]++;
+function pick(idx,btn,q){
+  if(S.answered)return;
+  S.answered=true;
+  clearInterval(S.timerInterval);
+  disableAns();
+  if(idx===q.correct){
+    const bonus=q.bomb?40:(S.timeLeft>13?20:S.timeLeft>7?15:10);
+    S.scores[S.curP]+=bonus;
+    S.streaks[S.curP]++;
+    // Streak bonus
+    if(S.streaks[S.curP]>=3) S.scores[S.curP]+=5;
     btn.classList.add('correct');
-    showFeedback(true, `✅ ئەوەی! ${bonus} خاڵ بەدەستهێنا! ${state.streaks[state.currentPlayer]>1?'🔥 پشتەیاری x'+state.streaks[state.currentPlayer]:''}`);
-    spawnPoints(bonus);
+    const streakMsg=S.streaks[S.curP]>=3?` 🔥 پشتەیاری x${S.streaks[S.curP]} (+5)`:'';
+    showFB(true,`✅ دروستە! +${bonus} خاڵ${q.bomb?' 💣 بۆمب!':''}${streakMsg}`);
+    spawnPts(`+${bonus}`,q.bomb);
   } else {
-    state.streaks[state.currentPlayer] = 0;
-    btn.classList.add('wrong');
-    showCorrect(q.correct);
-    showFeedback(false, `❌ هەڵە! وەڵامی دروست: ${q.a[q.correct]}`);
+    S.streaks[S.curP]=0;
+    loseLife(q);
   }
-
-  renderScoreboard();
-  setTimeout(nextTurn, 2000);
+  renderSB();
+  setTimeout(nextTurn,2200);
 }
 
-function showCorrect(correctIdx) {
-  document.querySelectorAll('.answer-btn').forEach((b, i) => {
-    if (i === correctIdx) b.classList.add('correct');
+function timeUp(q){
+  S.answered=true;
+  S.streaks[S.curP]=0;
+  disableAns();
+  showCorrectAns(q.correct);
+  loseLife(q,true);
+  setTimeout(nextTurn,2200);
+}
+
+function loseLife(q,timeout=false){
+  S.lives[S.curP]--;
+  showCorrectAns(q.correct);
+  if(S.lives[S.curP]<=0){
+    S.eliminated[S.curP]=true;
+    flashElim();
+    const eb=document.getElementById('elim-banner');
+    eb.textContent=`😢 ${S.names[S.curP]} دەردەچێت — ٣ هەڵەی کردوو!`;
+    eb.className='elim-banner show';
+    showFB(false,timeout?`⏰ کاتەکەت تەواو بوو! وەڵامی دروست: ${q.a[q.correct]}`:`❌ هەڵەی سێیەم! ${S.names[S.curP]} دەردەچێت!`);
+  } else {
+    const rem=S.lives[S.curP];
+    showFB(false,timeout
+      ?`⏰ کاتەکەت تەواو بوو! وەڵام: ${q.a[q.correct]} — ${rem} دەنگت ماوە`
+      :`❌ هەڵە! وەڵام: ${q.a[q.correct]} — ${'❤️'.repeat(rem)} ماوە`);
+  }
+}
+
+function showCorrectAns(ci){
+  document.querySelectorAll('.ans-btn').forEach((b,i)=>{
+    if(i===ci)b.classList.add('correct');
   });
 }
+function disableAns(){document.querySelectorAll('.ans-btn').forEach(b=>b.disabled=true);}
 
-function disableAnswers() {
-  document.querySelectorAll('.answer-btn').forEach(b => b.disabled = true);
+function showFB(ok,msg){
+  const fb=document.getElementById('fb-banner');
+  fb.textContent=msg;fb.className='fb-banner show '+(ok?'fb-ok':'fb-no');
 }
 
-function showFeedback(isCorrect, msg) {
-  const fb = document.getElementById('feedback-banner');
-  fb.textContent = msg;
-  fb.className = 'feedback-banner show ' + (isCorrect ? 'correct-fb' : 'wrong-fb');
+function nextTurn(){
+  S.curQ++;
+  const alive=activePlayers();
+  if(alive.length<=1){endGame();return;}
+  if(S.curQ>=S.totalQ){endGame();return;}
+  do{S.curP=(S.curP+1)%S.count;}while(S.eliminated[S.curP]);
+  renderSB();
+  loadQ();
 }
 
-function nextTurn() {
-  state.currentQ++;
-  state.currentPlayer = (state.currentPlayer + 1) % state.playerCount;
-  renderScoreboard();
-  loadQuestion();
-}
-
-function spawnPoints(pts) {
-  const el = document.createElement('div');
-  el.className = 'pts-popup';
-  el.textContent = `+${pts}`;
-  el.style.left = (30 + Math.random() * 40) + '%';
-  el.style.top = '40%';
+function spawnPts(txt,bomb=false){
+  const el=document.createElement('div');
+  el.className='pts-pop'+(bomb?' bomb-pts':'');
+  el.textContent=txt;
+  el.style.left=(20+Math.random()*60)+'%';
+  el.style.top='35%';
   document.body.appendChild(el);
-  setTimeout(() => el.remove(), 1200);
+  setTimeout(()=>el.remove(),1200);
 }
 
-// ============================================================
-//  RESULTS
-// ============================================================
-function endGame() {
+function flashElim(){
+  const el=document.createElement('div');
+  el.className='elim-flash';
+  document.body.appendChild(el);
+  setTimeout(()=>el.remove(),600);
+}
+
+// ─────────────────────────────────────────────
+//  END
+// ─────────────────────────────────────────────
+function endGame(){
+  clearInterval(S.timerInterval);
   showScreen('results');
-  const ranked = state.playerNames
-    .map((n, i) => ({ name: n, score: state.scores[i], i }))
-    .sort((a, b) => b.score - a.score);
-
-  document.getElementById('winner-name').textContent = ranked[0].name;
-
-  const container = document.getElementById('final-scores');
-  container.innerHTML = '';
-  ranked.forEach((p, rank) => {
-    const row = document.createElement('div');
-    row.className = 'final-score-row';
-    const badge = document.createElement('div');
-    badge.className = 'rank-badge';
-    badge.textContent = RANK_EMOJI[rank];
-    badge.style.background = hexToRgba(COLOR_HEX[p.i], 0.15);
-    badge.style.color = COLOR_HEX[p.i];
-
-    row.innerHTML = `
-      <div class="rank-badge" style="background:${hexToRgba(COLOR_HEX[p.i],0.15)};color:${COLOR_HEX[p.i]}">${RANK_EMOJI[rank]}</div>
-      <div class="final-player-name" style="color:${COLOR_HEX[p.i]}">${p.name}</div>
-      <div class="final-player-pts" style="color:${COLOR_HEX[p.i]}">${p.score} <span style="font-size:.7rem;color:var(--text-muted)">خاڵ</span></div>
-    `;
-    container.appendChild(row);
+  const ranked=S.names
+    .map((nm,i)=>({nm,sc:S.scores[i],i}))
+    .sort((a,b)=>b.sc-a.sc);
+  document.getElementById('winner-nm').textContent=ranked[0].nm;
+  const fl=document.getElementById('final-list');fl.innerHTML='';
+  ranked.forEach((p,rank)=>{
+    const row=document.createElement('div');row.className='final-row';
+    const elim=S.eliminated[p.i]?'😢 دەرچووی':'✅';
+    row.innerHTML=`
+      <div class="rank-b" style="background:${hexA(PCOLORS[p.i],.15)};color:${PCOLORS[p.i]}">${RANKS[rank]}</div>
+      <div class="final-nm" style="color:${PCOLORS[p.i]}">${p.nm}</div>
+      <div style="font-size:.7rem;color:var(--muted);margin-left:auto;margin-right:8px">${elim}</div>
+      <div class="final-pts" style="color:${PCOLORS[p.i]}">${p.sc}<span style="font-size:.65rem;color:var(--muted)"> خاڵ</span></div>`;
+    fl.appendChild(row);
   });
 }
 
-// ============================================================
-//  HELPERS
-// ============================================================
-function showScreen(id) {
-  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
-  document.getElementById('screen-' + id).classList.add('active');
+// ─────────────────────────────────────────────
+//  UTILS
+// ─────────────────────────────────────────────
+function showScreen(id){
+  document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
+  document.getElementById('sc-'+id).classList.add('active');
 }
-
-function goSetup() {
-  clearInterval(state.timerInterval);
-  showScreen('setup');
-}
-
-function hexToRgba(hex, a) {
-  const r = parseInt(hex.slice(1,3),16);
-  const g = parseInt(hex.slice(3,5),16);
-  const b = parseInt(hex.slice(5,7),16);
+function goSetup(){clearInterval(S.timerInterval);showScreen('setup');}
+function hexA(hex,a){
+  const r=parseInt(hex.slice(1,3),16);
+  const g=parseInt(hex.slice(3,5),16);
+  const b=parseInt(hex.slice(5,7),16);
   return `rgba(${r},${g},${b},${a})`;
 }
-
-function toKurdishNum(n) {
-  const k = ['٠','١','٢','٣','٤','٥','٦','٧','٨','٩'];
-  return String(n).split('').map(d => k[+d]||d).join('');
+function toK(n){
+  return String(n).replace(/[0-9]/g,d=>'٠١٢٣٤٥٦٧٨٩'[d]);
 }
 
-// ============================================================
-//  INIT
-// ============================================================
-selectCount(4);
+// INIT
+setCount(4);
 </script>
 </body>
 </html>
